@@ -16,8 +16,8 @@ class MessageListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(child: Text(message.bot[0])),
-      title: Text(message.bot),
+      leading: CircleAvatar(child: Text(message.sender[0])),
+      title: Text(message.sender),
       subtitle: Text(
         '${message.content}\n${message.timestamp.toLocal().toString().split(' ')[0]}',
         maxLines: 2,
