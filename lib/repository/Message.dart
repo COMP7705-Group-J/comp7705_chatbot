@@ -3,18 +3,18 @@ import 'dart:async';
 
 class Message {
   String conversationId;
-  String bot;
+  String sender;
   String content;
   DateTime timestamp;
 
-  Message({required this.conversationId, required this.bot, required this.content, required this.timestamp});
+  Message({required this.conversationId, required this.sender, required this.content, required this.timestamp});
 }
 
 //Mock Data
 List<Message> messages = [
-  Message(conversationId: "1", bot: "LinaBell", content: "Hello, how are you?", timestamp: DateTime.now().subtract(Duration(days: 1))),
-  Message(conversationId: "2", bot: "CookieAnn", content: "I'm fine, thanks for asking.", timestamp: DateTime.now().subtract(Duration(hours: 2))),
-  Message(conversationId: "3", bot: "Micky", content: "Glad to hear that!", timestamp: DateTime.now().subtract(Duration(minutes: 10))),
+  Message(conversationId: "1", sender: "LinaBell", content: "Hello, how are you?", timestamp: DateTime.now().subtract(Duration(days: 1))),
+  Message(conversationId: "2", sender: "CookieAnn", content: "I'm fine, thanks for asking.", timestamp: DateTime.now().subtract(Duration(hours: 2))),
+  Message(conversationId: "3", sender: "Micky", content: "Glad to hear that!", timestamp: DateTime.now().subtract(Duration(minutes: 10))),
   //
 ];
 
