@@ -17,13 +17,29 @@ class ChatDetail extends StatefulWidget {
 class _ChatDetailState extends State<ChatDetail> {
   String ? _message;
   final TextEditingController _controller = TextEditingController();
-  final MessageController controller = Get.find<MessageController>();
+  final MessageController messageController = Get.find<MessageController>();
+  final ScrollController scrollController = ScrollController();
 
   List<Message> ? messageList;
   @override
   void initState() {
     super.initState();
-    controller.loadAllMessages(widget.userId, widget.botId);
+    messageController.loadAllMessages(widget.userId, widget.botId);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(Duration.zero, () {
+        scrollToBottom();
+      });
+    });
+  }
+
+  void scrollToBottom() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 300),
+      );
+    }
   }
 
   void _sendMessage() {
@@ -35,10 +51,9 @@ class _ChatDetailState extends State<ChatDetail> {
         userId: widget.userId,
         input: message,
       );
-      controller.sendMessage(newMessage);
+      messageController.sendMessage(newMessage);
       _controller.clear();
-      controller.loadAllMessages(widget.userId, widget.botId);
-
+      messageController.loadAllMessages(widget.userId, widget.botId);
     }
   }
 
@@ -63,9 +78,10 @@ class _ChatDetailState extends State<ChatDetail> {
               children: [
                 Expanded(
                   child: Obx(() => ListView.builder(
-                    itemCount: controller.messageList.length,
+                    controller: scrollController,
+                    itemCount: messageController.messageList.length,
                     itemBuilder: (context, index) {
-                      final message = controller.messageList[index];
+                      final message = messageController.messageList[index];
                       Widget messageWidget;
                       if (message.byUser) {
                         messageWidget = SentMessageScreen(message: message.content);
@@ -102,14 +118,7 @@ class _ChatDetailState extends State<ChatDetail> {
       );
     }
 
-  void refresh() {
-    if (mounted) {
-      print('[refresh]');
-      setState(() {
-        controller.messageList;
-      });
-    }
-  }
+
 }
 
 
