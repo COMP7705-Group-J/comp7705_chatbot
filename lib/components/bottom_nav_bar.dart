@@ -1,5 +1,6 @@
 import 'package:comp7705_chatbot/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MyBottomNavBar extends StatelessWidget {
@@ -15,10 +16,10 @@ class MyBottomNavBar extends StatelessWidget {
       margin: const EdgeInsets.all(25),
       child: GNav(
         onTabChange: (value) => onTabChange!(value),
-        color: Colors.grey[700],
+        color: Colors.black,
+        activeColor:mainColor,
         mainAxisAlignment: MainAxisAlignment.center,
-        activeColor: mainColor,
-        tabBackgroundColor: mainColorback,
+        tabBackgroundColor: mainColorLight, 
         tabBorderRadius: 24,
         tabActiveBorder: Border.all(color:mainColor),
         tabs: const [

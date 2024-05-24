@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
-var backgroundColor = Colors.grey[100];
-var mainColor = Color.fromRGBO(67, 74, 172, 1);
-var mainColorback = Color.fromRGBO(218, 219, 238, 1);
+const mainColor = Color(0xFF6F35A5);
+const mainColorLight = Color(0xFFF1E6FF);
+
+const double defaultPadding = 16.0;
