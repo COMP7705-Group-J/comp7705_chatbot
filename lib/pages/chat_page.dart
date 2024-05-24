@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:comp7705_chatbot/repository/Message.dart';
 import 'package:comp7705_chatbot/controller/ConversationController.dart';
 import 'package:get/get.dart';
+import 'package:comp7705_chatbot/pages/chat_detail.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -29,7 +30,7 @@ class MessageListItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => MessageDetailPage(message: message),
+            builder: (context) => ChatDetail(userId: '1', botId: '1'),
           ),
         );
       },
@@ -40,7 +41,7 @@ class MessageListItem extends StatelessWidget {
 class MessageListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final ConversationController controller = Get.find(); // 获取 ConversationController 的实例
+    final ConversationController controller = Get.find();
     return Scaffold(
       appBar: AppBar(title: Text('Chat List')),
       body: ListView.builder(
@@ -48,7 +49,6 @@ class MessageListScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return MessageListItem(message: controller.chatList[index]);
         },
-
       ),
     );
   }
@@ -67,12 +67,7 @@ class _ChatPageState extends State<ChatPage> {
         itemBuilder: (context, index) {
           return MessageListItem(message: controller.chatList[index]);
         },
-
       ),
     );
-    // return Center(
-    //     child: MessageListItem(message: messages[index]),
-    //   //child: Text('chat page'),
-    // );
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 // import 'package:comp7705_chatbot/components/received_message_screen.dart';
@@ -8,14 +6,24 @@ import 'package:comp7705_chatbot/service/HttpService.dart';
 
 class Message {
   String chatBotId;
+  bool byUser;
   String content;
   DateTime timestamp;
 
-  Message({required this.chatBotId, required this.content, required this.timestamp});
+  Message({required this.chatBotId, required this.byUser, required this.content, required this.timestamp});
 }
+
+class MessageRequest {
+  String chatBotId;
+  String userId;
+  String input;
+  MessageRequest({required this.chatBotId, required this.userId, required this.input});
+}
+
 
 class ChatRepository {
   static ChatRepository? _instance;
+  final httpService = HttpService();
 
   ChatRepository._internal();
 
@@ -25,12 +33,11 @@ class ChatRepository {
   }
 
   Future<List<Message>> fetchChatList(String userId) async {
-    print('====fetchList======' + userId);
-    final httpService = HttpService();
+    print('[fetchChatList], params: {userId: $userId}');
     try {
       Map<String, String> params = {'user_id': userId};
       final response = await httpService.get('http://10.0.2.2:8000/chat/list', params);
-      print(response);
+      print('response' + response.toString());
 
       List<dynamic> dataList = response['data'] as List<dynamic>;
       List<Message> chatList = [];
@@ -38,7 +45,7 @@ class ChatRepository {
         int chatbot_id = item[0] as int;
         String timestamp = item[1] as String;
         String content = item[2] as String;
-        Message message = Message(chatBotId: chatbot_id.toString(), content: content, timestamp: DateTime.parse(timestamp));
+        Message message = Message(chatBotId: chatbot_id.toString(), byUser: false, content: content, timestamp: DateTime.parse(timestamp));
         chatList.add(message);
         print('Chatbot ID: $chatbot_id, Timestamp: $timestamp, Content: $content');
       }
@@ -50,78 +57,59 @@ class ChatRepository {
     }
   }
 
-}
 
 
+  Future<List<Message>> getMessages(String userId, String botId) async {
+    print('[loadAllMessages], params:{userId: $userId , botId: $botId}');
+    try {
+      Map<String, String> params = {'user_id': userId, 'chatbot_id': botId};
+      final response = await httpService.get('http://10.0.2.2:8000/chat/history', params);
+      print('response' + response.toString());
 
+      List<dynamic> dataList = response['data'] as List<dynamic>;
+      List<Message> messageList = [];
+      for (List<dynamic> item in dataList) {
+        String content = item[0] as String;
+        bool by_user = item[1] as int == 1 ? true : false;
 
-class ChatDetail extends StatefulWidget {
-  ChatDetail({required Key key}) : super(key: key);
-
-  @override
-  _ChatDetailState createState() => _ChatDetailState();
-}
-
-class _ChatDetailState extends State<ChatDetail> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.cyan[900],
-        automaticallyImplyLeading: false,
-        //title: Text(widget.title),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/bg_chat.jpg"),
-                fit: BoxFit.cover)),
-        child: ListView(
-          children: [
-            // SentMessageScreen(message: "Hello"),
-            // ReceivedMessageScreen(message: "Hi, how are you"),
-            // SentMessageScreen(message: "I am great how are you doing"),
-            // ReceivedMessageScreen(message: "I am also fine"),
-            // SentMessageScreen(message: "Can we meet tomorrow?"),
-            // ReceivedMessageScreen(message: "Yes, of course we will meet tomorrow"),
-          ],
-        ),
-      ),
-    );
+        String timestamp = item[2] as String;
+        Message message = Message(chatBotId: '', byUser: by_user, content: content, timestamp: DateTime.parse(timestamp));
+        messageList.add(message);
+        print('by_user: $by_user, Timestamp: $timestamp, Content: $content');
+      }
+      return messageList;
+    } on HttpException catch (e) {
+      throw HttpException('getMessages Failed');
+    } finally {
+    }
   }
-}
+
+  /**
+   * Send Message to Bot
+   */
+  Future<void> sendMessage(MessageRequest request) async {
+    print('[sendMessage], params:' + request.toString());
+    String userId = request.userId;
+    String botId = request.chatBotId;
+    String input = request.input;
+    try {
+      Map<String, String> params = {'user_id': userId, 'chatbot_id': botId, 'input': input};
+      final response = await httpService.get('http://10.0.2.2:8000/chat/new_chat', params);
+      print('response' + response.toString());
+      String data = response['data'] as String;
+
+    } on HttpException catch (e) {
+      throw HttpException('SendMessage  Failed');
+    } finally {
+    }
 
 
-
-
-
-
-
-
-
-class MessageDetailPage extends StatelessWidget {
-  final Message message;
-
-  MessageDetailPage({required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Message Detail')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('message page')
-            // Text('Sender: ${message.bot}'),
-            // const SizedBox(height: 16.0),
-            // Text('Content: ${message.content}'),
-            // const SizedBox(height: 16.0),
-            // Text('Timestamp: ${message.timestamp.toLocal()}'),
-          ],
-        ),
-      ),
-    );
   }
+
 }
+
+
+
+
+
+

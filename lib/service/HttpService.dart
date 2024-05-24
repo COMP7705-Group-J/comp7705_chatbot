@@ -78,8 +78,7 @@ void main() async {
       int chatbot_id = item[0] as int;
       String timestamp = item[1] as String;
       String content = item[2] as String;
-
-      // 打印每个项目的信息
+      http://localhost:8080//chat/newChat?userId=1&chatbot_id=1&input=hi
       print('Chatbot ID: $chatbot_id, Timestamp: $timestamp, Content: $content');
     }
 
