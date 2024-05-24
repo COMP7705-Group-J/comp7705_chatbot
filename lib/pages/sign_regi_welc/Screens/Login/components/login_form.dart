@@ -1,4 +1,5 @@
 import 'package:comp7705_chatbot/pages/home_page.dart';
+import 'package:comp7705_chatbot/service/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../../components/already_have_an_account_acheck.dart';
@@ -18,19 +19,32 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   String? _username;
   String? _password;
+  bool _isObscure = true;
+  //final _authService = AuthService();
 
-  void _onLogin() {
+  Future<void> _onLogin() async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
       // Perform login logic with _username and _password
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return  HomePage(username: _username!);
-          },
-        ),
-      );
+      try {
+        final tokens = await AuthService.login(_username!, _password!);
+        // 登录成功后，导航到主页面
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return HomePage(username: _username!);
+            },
+          ),
+        );
+      } catch (e) {
+        // 处理登录失败的情况
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login failed: $e'),
+          ),
+        );
+      }
     }
   }
 
@@ -61,15 +75,25 @@ class _LoginFormState extends State<LoginForm> {
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
               textInputAction: TextInputAction.done,
-              obscureText: true,
+              obscureText: _isObscure,
               cursorColor: mainColor,
               onSaved: (password) => _password = password,
               validator: (value) => value?.isEmpty ?? true ? 'Please enter a password' : null,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Your password",
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(defaultPadding),
                   child: Icon(Icons.lock),
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isObscure ? Icons.visibility : Icons.visibility_off,
+                    ),
+                  onPressed: () {
+                    setState(() {
+                      _isObscure = !_isObscure;
+                    });
+                  },
                 ),
               ),
             ),
