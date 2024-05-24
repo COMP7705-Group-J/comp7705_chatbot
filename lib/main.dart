@@ -1,5 +1,6 @@
 
 import 'package:comp7705_chatbot/const.dart';
+import 'package:comp7705_chatbot/controller/MessageController.dart';
 import 'package:comp7705_chatbot/pages/home_page.dart';
 import 'package:comp7705_chatbot/pages/sign_regi_welc/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(ConversationController());
+    Get.put(MessageController());
 
     return MaterialApp(
      debugShowCheckedModeBanner: false,

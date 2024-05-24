@@ -7,6 +7,7 @@ class ConversationController extends GetxController {
   final currentConversationUuid = "".obs;
 
   static ConversationController get to => Get.find();
+
   @override
   void onInit() async {
     try {
