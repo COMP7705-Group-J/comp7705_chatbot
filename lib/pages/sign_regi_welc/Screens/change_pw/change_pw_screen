@@ -1,0 +1,95 @@
+import 'package:flutter/material.dart';
+
+class ChangePasswordScreen extends StatefulWidget {
+  @override
+  _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
+}
+
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+  final _formKey = GlobalKey<FormState>();
+  String _currentPassword = '';
+  String _newPassword = '';
+  String _confirmPassword = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Change Password'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Current Password',
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your current password';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _currentPassword = value!;
+                },
+              ),
+              SizedBox(height: 16.0),
+              TextFormField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'New Password',
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a new password';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _newPassword = value!;
+                },
+              ),
+              SizedBox(height: 16.0),
+              TextFormField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please confirm your new password';
+                  }
+                  if (value != _newPassword) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _confirmPassword = value!;
+                },
+              ),
+              SizedBox(height: 32.0),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    // 在这里实现修改密码的逻辑
+                    // ...
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Text('Change Password'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

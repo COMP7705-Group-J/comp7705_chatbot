@@ -1,3 +1,5 @@
+import 'package:comp7705_chatbot/pages/sign_regi_welc/Screens/Welcome/welcome_screen.dart';
+import 'package:comp7705_chatbot/pages/sign_regi_welc/Screens/change_pw/change_pw_screen';
 import 'package:flutter/material.dart';
 import '../sign_regi_welc/components/background.dart';
 
@@ -59,9 +61,17 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             _buildListItem(
               icon: Icons.settings_outlined,
-              title: 'Settings',
+              title: 'Change Password',
               onTap: () {
                 // Navigate to app settings
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ChangePasswordScreen();
+                    },
+                  ),
+                );
               },
             ),
             _buildListItem(
@@ -74,8 +84,47 @@ class _ProfilePageState extends State<ProfilePage> {
             _buildListItem(
               icon: Icons.logout,
               title: 'Logout',
-              onTap: () {
+              onTap: () async {
                 // Implement logout functionality
+                // 跳转到welcome
+                bool confirm = await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Logout'),
+                      content: Text('Are you sure you want to logout?'),
+                      actions: [
+                        TextButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            // 关闭弹窗
+                            Navigator.of(context).pop(false);
+                          },
+                        ),
+                        TextButton(
+                          child: Text('Confirm'),
+                          onPressed: () {
+                            // 关闭弹窗并跳转到welcome页面
+                            Navigator.of(context).pop(true);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const WelcomeScreen();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+                // 如果用户确认退出
+                if (confirm) {
+                  // 实现退出功能
+                  // ...
+                }
               },
             ),
           ],

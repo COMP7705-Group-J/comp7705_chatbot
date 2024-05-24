@@ -3,3 +3,4 @@ const mainColor = Color(0xFF6F35A5);
 const mainColorLight = Color(0xFFF1E6FF);
 
 const double defaultPadding = 16.0;
+const String apiUrl = 'http://127.0.0.1:8000/';
