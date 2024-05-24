@@ -4,8 +4,22 @@ import 'package:http/http.dart' as http;
 class HttpService {
   final http.Client _client = http.Client();
 
-  Future<Map<String, dynamic>> get(String url) async {
+  Future<Map<String, dynamic>> get(String url, Map<String, String> params) async {
+    print('Http get, url: $url, params: $params');
+    if (params != null && params.isNotEmpty) {
+      String queryString = params.entries
+          .map((entry) => '${entry.key}=${entry.value}')
+          .join('&');
+
+      if (url.contains('?')) {
+        url += '&' + queryString;
+      } else {
+        url += '?' + queryString;
+      }
+    }
+
     final response = await _client.get(Uri.parse(url));
+    print('response:' + response.toString());
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
@@ -54,8 +68,21 @@ void main() async {
   final httpService = HttpService();
 
   try {
-    final resultGet = await httpService.get('http://localhost:8000/chat/history');
+    Map<String, String> params = {'user_id': '1'};
+    final resultGet = await httpService.get('http://localhost:8000/chat/list', params);
     print(resultGet);
+
+    List<dynamic> dataList = resultGet['data'] as List<dynamic>;
+
+    for (List<dynamic> item in dataList) {
+      int chatbot_id = item[0] as int;
+      String timestamp = item[1] as String;
+      String content = item[2] as String;
+
+      // 打印每个项目的信息
+      print('Chatbot ID: $chatbot_id, Timestamp: $timestamp, Content: $content');
+    }
+
 
 
     final resultPost = await httpService.post(
