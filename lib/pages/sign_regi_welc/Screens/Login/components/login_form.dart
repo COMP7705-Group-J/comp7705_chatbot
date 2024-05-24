@@ -47,9 +47,9 @@ class _LoginFormState extends State<LoginForm> {
               textInputAction: TextInputAction.next,
               cursorColor: mainColor,
               onSaved: (username) => _username = username,
-              validator: (value) => value?.isEmpty ?? true ? 'Please enter a username' : null,
+              validator: (value) => value?.isEmpty ?? true ? 'Please enter a username/email' : null,
               decoration: const InputDecoration(
-                hintText: "Your username",
+                hintText: "Your username/email",
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(defaultPadding),
                   child: Icon(Icons.person),

@@ -1,3 +1,4 @@
+import 'package:comp7705_chatbot/pages/sign_regi_welc/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import '../sign_regi_welc/components/background.dart';
 
@@ -76,6 +77,15 @@ class _ProfilePageState extends State<ProfilePage> {
               title: 'Logout',
               onTap: () {
                 // Implement logout functionality
+                // 跳转到welcome
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const WelcomeScreen();
+                    },
+                  ),
+                );
               },
             ),
           ],
