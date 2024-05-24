@@ -20,7 +20,6 @@ class _ChatDetailState extends State<ChatDetail> {
   final MessageController messageController = Get.find<MessageController>();
   final ScrollController scrollController = ScrollController();
 
-  List<Message> ? messageList;
   @override
   void initState() {
     super.initState();

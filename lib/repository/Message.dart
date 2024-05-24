@@ -36,9 +36,8 @@ class ChatRepository {
     print('[fetchChatList], params: {userId: $userId}');
     try {
       Map<String, String> params = {'user_id': userId};
-      final response = await httpService.get('http://10.0.2.2:8000/chat/list', params);
+      final response = await httpService.get('http://47.76.114.136:8000/chat/list', params);
       print('response' + response.toString());
-
       List<dynamic> dataList = response['data'] as List<dynamic>;
       List<Message> chatList = [];
       for (List<dynamic> item in dataList) {
@@ -63,7 +62,7 @@ class ChatRepository {
     print('[loadAllMessages], params:{userId: $userId , botId: $botId}');
     try {
       Map<String, String> params = {'user_id': userId, 'chatbot_id': botId};
-      final response = await httpService.get('http://10.0.2.2:8000/chat/history', params);
+      final response = await httpService.get('http://47.76.114.136:8000/chat/history', params);
       print('response' + response.toString());
 
       List<dynamic> dataList = response['data'] as List<dynamic>;
@@ -94,7 +93,7 @@ class ChatRepository {
     String input = request.input;
     try {
       Map<String, String> params = {'user_id': userId, 'chatbot_id': botId, 'input': input};
-      final response = await httpService.get('http://10.0.2.2:8000/chat/new_chat', params);
+      final response = await httpService.get('http://47.76.114.136:8000/chat/new_chat', params);
       print('response' + response.toString());
       String data = response['data'] as String;
 

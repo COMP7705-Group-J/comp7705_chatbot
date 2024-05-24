@@ -30,7 +30,7 @@ class MessageListItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ChatDetail(userId: '1', botId: '1'),
+            builder: (context) => ChatDetail(userId: '1', botId: message.chatBotId),
           ),
         );
       },
@@ -41,7 +41,7 @@ class MessageListItem extends StatelessWidget {
 class MessageListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final ConversationController controller = Get.find();
+    final ConversationController controller = Get.find<ConversationController>();
     return Scaffold(
       appBar: AppBar(title: Text('Chat List')),
       body: ListView.builder(
@@ -56,18 +56,27 @@ class MessageListScreen extends StatelessWidget {
 
 
 class _ChatPageState extends State<ChatPage> {
+  final ConversationController controller = Get.find<ConversationController>();
+  final ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getChatList('1');
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ConversationController controller = Get.find(); // 获取 ConversationController 的实例
 
     return Scaffold(
       appBar: AppBar(title: Text('Message List')),
-      body: ListView.builder(
+      body: Obx(() =>ListView.builder(
+        controller: scrollController,
         itemCount: controller.chatList.length,
         itemBuilder: (context, index) {
           return MessageListItem(message: controller.chatList[index]);
         },
-      ),
+      )),
     );
   }
 }

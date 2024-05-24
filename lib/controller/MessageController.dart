@@ -11,7 +11,7 @@ class MessageController extends GetxController {
 
   void loadAllMessages(String userId, String botId) async {
     print('[MessageController loadAllMessages]');
-    messageList.value = await ChatRepository().getMessages('1', '1');
+    messageList.value = await ChatRepository().getMessages('1', botId);
     update();
   }
 

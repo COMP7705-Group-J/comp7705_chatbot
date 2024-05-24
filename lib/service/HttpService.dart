@@ -69,7 +69,7 @@ void main() async {
 
   try {
     Map<String, String> params = {'user_id': '1'};
-    final resultGet = await httpService.get('http://localhost:8000/chat/list', params);
+    final resultGet = await httpService.get('http://47.76.114.136:8000/chat/list', params);
     print(resultGet);
 
     List<dynamic> dataList = resultGet['data'] as List<dynamic>;

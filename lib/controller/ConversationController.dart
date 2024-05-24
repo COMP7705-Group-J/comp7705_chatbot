@@ -8,18 +8,12 @@ class ConversationController extends GetxController {
 
   static ConversationController get to => Get.find();
 
-  @override
-  void onInit() async {
-    try {
+
+  void getChatList(String userId) async {
       isLoading.value = true;
-      chatList.value = await ChatRepository().fetchChatList('1');
+      chatList.value = await ChatRepository().fetchChatList(userId);
       isLoading.value = false;
-    } catch (error) {
-      print("Error fetching list: $error");
-      isLoading.value = false;
-    }
-    //chatList.value = await ChatRepository().fetchChatList('1');
-    super.onInit();
+      update();
   }
 
   void setCurrentConversationUuid(String uuid) async {
