@@ -28,6 +28,7 @@ class _LoginFormState extends State<LoginForm> {
       // Perform login logic with _username and _password
       try {
         final tokens = await AuthService.login(_username!, _password!);
+        print('Access Token: $tokens');
         // 登录成功后，导航到主页面
         Navigator.push(
           context,

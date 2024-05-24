@@ -1,4 +1,5 @@
 import 'package:comp7705_chatbot/pages/sign_regi_welc/Screens/Welcome/welcome_screen.dart';
+import 'package:comp7705_chatbot/pages/sign_regi_welc/Screens/change_pw/change_pw_screen';
 import 'package:flutter/material.dart';
 import '../sign_regi_welc/components/background.dart';
 
@@ -60,9 +61,17 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             _buildListItem(
               icon: Icons.settings_outlined,
-              title: 'Settings',
+              title: 'Change Password',
               onTap: () {
                 // Navigate to app settings
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ChangePasswordScreen();
+                    },
+                  ),
+                );
               },
             ),
             _buildListItem(
