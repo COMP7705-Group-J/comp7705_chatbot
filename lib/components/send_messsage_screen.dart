@@ -37,7 +37,7 @@ class SentMessageScreen extends StatelessWidget {
             CustomPaint(painter: CustomShape(Colors.deepPurple!)),
             SizedBox(width: 8), // 头像和消息之间的间距
             Icon(
-              FontAwesomeIcons.circleUser, // 使用Flutter内置的账号图标作为头像
+              FontAwesomeIcons.solidUser, // 使用Flutter内置的账号图标作为头像
               color: Colors.deepPurple,
               size: 26, // 设置图标大小
             ),
