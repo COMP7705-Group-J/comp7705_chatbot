@@ -127,6 +127,13 @@ class _SignUpFormState extends State<SignUpForm> {
               obscureText: _isObscure,
               cursorColor: mainColor,
               //validator: (value) => value?.isEmpty ?? true ? 'Please enter a password' : null,
+              /*
+              At least 8 characters long
+              Contains at least one lowercase letter
+              Contains at least one uppercase letter
+              Contains at least one digit
+              Contains at least one special character (@, $, !, %, *, ?, &) 
+              */
               validator: (value) {
                 if (value?.isEmpty ?? true) {
                   return 'Please enter a password';
