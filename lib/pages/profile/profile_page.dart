@@ -47,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  Text('johndoe@example.com'),
+                  Text('groupj@163.com'),
                 ],
               ),
             ),
