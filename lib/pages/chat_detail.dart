@@ -19,10 +19,10 @@ class _ChatDetailState extends State<ChatDetail> {
   String ? _message;
   final TextEditingController _controller = TextEditingController();
   final ScrollController scrollController = ScrollController();
+  final MessageController messageController = Get.find<MessageController>();
 
   @override
   void initState() {
-    final MessageController messageController = Get.find<MessageController>();
 
     super.initState();
     messageController.loadAllMessages(widget.userId, widget.botId);
@@ -44,8 +44,6 @@ class _ChatDetailState extends State<ChatDetail> {
   }
 
   void _sendMessage() {
-    final MessageController messageController = Get.find<MessageController>();
-
     String message = _controller.text.trim();
     print(message);
     if (message.isNotEmpty) {
@@ -57,13 +55,17 @@ class _ChatDetailState extends State<ChatDetail> {
       messageController.sendMessage(newMessage);
       _controller.clear();
       messageController.loadAllMessages(widget.userId, widget.botId);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(Duration.zero, () {
+          scrollToBottom();
+        });
+      });
     }
   }
 
 
   @override
     Widget build(BuildContext context) {
-    final MessageController messageController = Get.find<MessageController>();
 
     return Scaffold(
         appBar: AppBar(
