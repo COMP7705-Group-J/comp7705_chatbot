@@ -90,7 +90,7 @@ class ChatRepository {
     String input = request.input;
     try {
       Map<String, String> params = {'user_id': userId, 'chatbot_id': botId, 'input': input};
-      final response = await httpService.get('http://47.76.114.136:8000/chat/new_chat', params);
+      final response = await httpService.post('http://47.76.114.136:8000/chat/new_chat', params);
       print('response' + response.toString());
       String data = response['data'] as String;
 

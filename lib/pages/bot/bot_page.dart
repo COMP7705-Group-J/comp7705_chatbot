@@ -20,7 +20,7 @@ class BotListItem extends StatelessWidget {
   Widget buildAvatar() {
     return CircleAvatar(
       backgroundImage: AssetImage('assets/icons/bot_blue.png'),
-      //radius: 20.0,
+      radius: 20.0,
     );
   }
 
@@ -73,6 +73,7 @@ class _BotPageState extends State<BotPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+
       appBar: AppBar(title: Text('Bot List')),
       body: Obx(() =>ListView.builder(
         controller: scrollController,
