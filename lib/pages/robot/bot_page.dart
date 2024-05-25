@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:comp7705_chatbot/repository/Bot.dart';
 import 'package:comp7705_chatbot/pages/robot/botdetail.dart';
 import 'package:comp7705_chatbot/pages/robot/create_robot.dart';
+import 'package:comp7705_chatbot/const.dart';
 class BotPage extends StatefulWidget {
   const BotPage({super.key});
 
@@ -33,9 +34,9 @@ class BotListItem extends StatelessWidget {
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {
         //Navigator.of(context).push(
-          // MaterialPageRoute(
-          //   builder: (context) => BotDetail(botId: bot.chatbot_id.toString()),
-          // ),
+         
+          //    MaterialPageRoute(builder: (context) => BotDetailsScreen(userId: 0, botId: 0)),
+          
         //);
       },
     );
@@ -71,46 +72,113 @@ class _BotPageState extends State<BotPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-     // appBar: AppBar(title: Text('Bot List')),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // ElevatedButton(
-              //   onPressed: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(builder: (context) => CreateBotPageUI()),
-              //     );
-              //   },
-              //   child: Text('Create Chatbot'),
-              // ),
-              // SizedBox(width: 16.0),
-              // ElevatedButton(
-              //   onPressed: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(builder: (context) => BotDetailsScreen(userId: 0, botId: 0)),
-              //     );
-              //   },
-              //   child: Text('Bot Details'),
-              // ),
-            ],
+  return Scaffold(
+    body: Column(
+      children: [
+        SizedBox(height: 8.0),
+        // 固定在顶部的两个 TextButton,避开状态栏
+        SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      // add your button functionality here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CreateBotPageUI()),
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                        side: BorderSide(color: mainColor, width: 2.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                    ),
+                    child: Text('Create Chatbot'),
+                  ),
+                ),
+                SizedBox(width: 8.0),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      // add your button functionality here
+                    },
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                        side: BorderSide(color: mainColor, width: 2.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                    ),
+                    child: Text('New Chat'),
+                  ),
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 16.0),
-          Expanded(
-            child: Obx(() => ListView.builder(
-              controller: scrollController,
-              itemCount: controller.botList.length,
-              itemBuilder: (context, index) {
-                return BotListItem(bot: controller.botList[index]);
-              },
-            )),
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+        // 可滚动的ListView.builder
+        Expanded(
+          child: Obx(() => ListView.builder(
+            controller: scrollController,
+            itemCount: controller.botList.length,
+            itemBuilder: (context, index) {
+              return BotListItem(bot: controller.botList[index]);
+            },
+          )),
+        ),
+      ],
+    ),
+  );
 }
+}
+
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//      // appBar: AppBar(title: Text('Bot List')),
+//       body: Column(
+//         children: [
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               // ElevatedButton(
+//               //   onPressed: () {
+//               //     Navigator.push(
+//               //       context,
+//               //       MaterialPageRoute(builder: (context) => CreateBotPageUI()),
+//               //     );
+//               //   },
+//               //   child: Text('Create Chatbot'),
+//               // ),
+//               // SizedBox(width: 16.0),
+//               // ElevatedButton(
+//               //   onPressed: () {
+//               //     Navigator.push(
+//               //       context,
+//               //       MaterialPageRoute(builder: (context) => BotDetailsScreen(userId: 0, botId: 0)),
+//               //     );
+//               //   },
+//               //   child: Text('Bot Details'),
+//               // ),
+//             ],
+//           ),
+//           SizedBox(height: 16.0),
+//           Expanded(
+//             child: Obx(() => ListView.builder(
+//               controller: scrollController,
+//               itemCount: controller.botList.length,
+//               itemBuilder: (context, index) {
+//                 return BotListItem(bot: controller.botList[index]);
+//               },
+//             )),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

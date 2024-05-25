@@ -1,3 +1,4 @@
+import 'package:comp7705_chatbot/pages/robot/bot_page.dart';
 import 'package:comp7705_chatbot/pages/robot/robot_page.dart';
 import 'package:comp7705_chatbot/repository/Bot.dart';
 import 'package:comp7705_chatbot/service/bot_service.dart';
@@ -42,7 +43,7 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
         );
         // 注册成功后的处理逻辑
         // 例如: 跳转到登录页面或显示成功提示
-        Navigator.push(context, MaterialPageRoute(builder: (context) => RobotPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => BotPage()));
       } catch (e) {
         // Handle any exceptions, such as HttpException
         print('Error creating bot: $e');

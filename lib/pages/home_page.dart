@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
       // pages
     final List<Widget> _pages = [
       // robot page
-      const RobotPage(),
+      const BotPage(),
 
       // chat page
       const ChatPage(),
