@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class BotsService {
-  static const String _baseUrl = 'http://47.76.114.136:8000';
+  static const String _baseUrl = 'http://localhost:8000';
   static final _client = http.Client();
 
   // 创建机器人
@@ -19,10 +19,11 @@ class BotsService {
       'chatbot_type': botType,
       if (botType == 1)'chatbot_persona': botPersona,
     };
+    print(body);
     final response = await _client.post(
       url, 
       body: jsonEncode(body), 
-      headers: {'Content-Type': 'application/json'}
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     );
     print('Response Status Code: ${response.statusCode}');
     print('Response Body: ${response.body}');
@@ -44,7 +45,7 @@ class BotsService {
       'user_id': userId,
       'chatbot_id': botId,
     };
-    final response = await _client.post(url, body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
+    final response = await _client.post(url, body: jsonEncode(body), headers: {'Content-Type': 'application/x-www-form-urlencoded'});
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
@@ -110,7 +111,7 @@ void main() async {
     // User registration
     final createResult = await BotsService.createBot(
       userId: 1,
-      botName: 'My Botsherlock',
+      botName: "LinaBell",
       botType: 1,
       botPersona: 'Sherlock Holmes'
     );

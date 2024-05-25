@@ -1,3 +1,5 @@
+import 'package:comp7705_chatbot/pages/robot/robot_page.dart';
+import 'package:comp7705_chatbot/repository/Bot.dart';
 import 'package:comp7705_chatbot/service/bot_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,22 +16,33 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
   String _botName = '';
   int _botType = 0; // Default bot type
   String _botPersona = '';
+  BotRepository repository = BotRepository();
 
   Future<void> _createBot() async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
       try {
-        final userId = 123; // Replace with the actual user ID
-
-        final botDetails = await BotsService.createBot(
-          userId: userId,
-          botName: _botName,
-          botType: _botType,
-          botPersona: _botPersona,
+        final userId = 1; // Replace with the actual user ID
+        Bot botReq = Bot(
+          user_id:userId,
+          chatbot_name:_botName,
+          chatbot_type:_botType,
+          chatbot_persona:_botPersona,
         );
-
+        print('creatqqqebotresponse');
+        final createbotresponse = await repository.createBot(botReq);
         // Process the bot details as needed
-        print(botDetails);
+        print('createbotresponse');
+        print(createbotresponse);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Create Bot successful!'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        // 注册成功后的处理逻辑
+        // 例如: 跳转到登录页面或显示成功提示
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RobotPage()));
       } catch (e) {
         // Handle any exceptions, such as HttpException
         print('Error creating bot: $e');

@@ -13,7 +13,6 @@ class BotController extends GetxController {
     update();
   }
 
-
-
+  
 
 }

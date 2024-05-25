@@ -3,13 +3,14 @@ import 'dart:ffi';
 import 'package:comp7705_chatbot/service/HttpService.dart';
 
 class Bot {
+  int ? user_id;
   int ? chatbot_id;
   String chatbot_name;
   int chatbot_type;
-  String chatbot_persona;
-  String create_at;
-  Bot({this.chatbot_id, required this.chatbot_name, required this.chatbot_type,
-    required this.chatbot_persona, required this.create_at});
+  String ? chatbot_persona;
+  String ? create_at;
+  Bot({this.user_id,this.chatbot_id, this.create_at,this.chatbot_persona,required this.chatbot_name, required this.chatbot_type,
+     });
 }
 
 class BotRequest {
@@ -46,9 +47,9 @@ class BotRepository {
       List<Bot> dataList = response['data'] as List<Bot>;
       for (Bot item in dataList) {
         String chatBotName = item.chatbot_name;
-        String createdAt = item.create_at;
+        String? createdAt = item.create_at;
         int chatbotType = item.chatbot_type;
-        String chatbotPersona = item.chatbot_persona;
+        String ?chatbotPersona = item.chatbot_persona;
         Bot bot = Bot(chatbot_name: chatBotName, create_at: createdAt, chatbot_type: chatbotType,
           chatbot_persona: chatbotPersona);
         botList.add(bot);
@@ -62,7 +63,33 @@ class BotRepository {
     }
   }
 
-
+  Future<int> createBot(Bot bot) async {
+    Map<String, String> botparams = {
+      'user_id': bot.user_id.toString(),
+      'chatbot_name': bot.chatbot_name,
+      'chatbot_type': bot.chatbot_type.toString(),
+      if (bot.chatbot_type == 1) 'chatbot_persona': bot.chatbot_persona ?? '',
+    };
+    print('[BotRepository createBot], params: $botparams');
+    try {
+      final response = await httpService.postByForm('http://47.76.114.136:8000/bots/create', botparams);
+      print('response' + response.toString());
+      int code = response['code'] as int;
+      print('code' + code.toString());
+      if (code == -1) {
+        throw HttpException('Create Bot Failedhhhh');
+      }
+      List<dynamic> dataList = response['data'];
+      Map<String, dynamic> dataMap = dataList.first as Map<String, dynamic>;
+      int chatbotId = dataMap['chatbot_id'] as int;
+      //String createdAt = data['create_at'] as String;
+      return chatbotId;
+    } on HttpException {
+      rethrow;
+    } catch (e) {
+      throw HttpException('Create Bot Failed');
+    }
+  }
 
 
 

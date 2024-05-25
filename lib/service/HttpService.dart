@@ -37,7 +37,7 @@ class HttpService {
       headers: headers,
       body: encodedBody
     );
-
+    print(response.body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
@@ -60,6 +60,7 @@ class HttpService {
         },
         body: queryParameters
     );
+    print('resodfvb'+response.body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
@@ -110,7 +111,8 @@ void main() async {
       "chatbot_name": "LinaBell",
       "chatbot_type": 0
     };
-    final resultPost = await httpService.post(
+    print(body);
+    final resultPost = await httpService.postByForm(
       'http://localhost:8000/bots/create',
         body
     );
