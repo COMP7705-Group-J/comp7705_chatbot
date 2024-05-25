@@ -29,7 +29,7 @@ class HttpService {
 
   Future<Map<String, dynamic>> post(String url, Map<String, Object> body) async {
     final headers = {
-      'Content-Type': 'application/json; Ur',
+      'Content-Type': 'application/json; charset=utf-8',
     };
     final encodedBody = jsonEncode(body);
     final response = await _client.post(
@@ -108,12 +108,12 @@ void main() async {
     // }
     final body = {
       "user_id": 1,
-      "chatbot_name": "LinaBell",
-      "chatbot_type": 0
+      "chatbot_id": "9435",
+      "input": 'You have a good memory!'
     };
     print(body);
     final resultPost = await httpService.postByForm(
-      'http://localhost:8000/bots/create',
+      'http://47.76.114.136:8000/chat/new_chat',
         body
     );
     print(resultPost);

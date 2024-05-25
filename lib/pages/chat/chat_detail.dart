@@ -6,9 +6,10 @@ import 'package:get/get.dart';
 import '../../repository/Message.dart';
 
 class ChatDetail extends StatefulWidget {
-  ChatDetail({key, required this.userId, required this.botId}) : super(key: key);
+  ChatDetail({key, required this.userId, required this.botId, required this.botName}) : super(key: key);
   final String userId;
   final String botId;
+  final String botName;
 
   @override
   _ChatDetailState createState() => _ChatDetailState();
@@ -69,7 +70,7 @@ class _ChatDetailState extends State<ChatDetail> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.botId),
+          title: Text(widget.botName),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {

@@ -40,7 +40,9 @@ class MessageListItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ChatDetail(userId: '1', botId: message.chatBotId),
+            builder: (context) => ChatDetail(userId: '1',
+                botId: message.chatBotId,
+                botName: message.chatBotName),
           ),
         );
       },
