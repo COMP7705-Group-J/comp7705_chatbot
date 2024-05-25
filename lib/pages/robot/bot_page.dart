@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:comp7705_chatbot/controller/BotController.dart';
 import 'package:get/get.dart';
 import 'package:comp7705_chatbot/repository/Bot.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:comp7705_chatbot/pages/bot/bot_detail.dart';
+import 'package:comp7705_chatbot/pages/robot/botdetail.dart';
+import 'package:comp7705_chatbot/pages/robot/create_robot.dart';
 class BotPage extends StatefulWidget {
   const BotPage({super.key});
 
@@ -32,11 +32,11 @@ class BotListItem extends StatelessWidget {
       title: Text(bot.chatbot_name),
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => BotDetail(botId: bot.chatbot_id.toString()),
-          ),
-        );
+        //Navigator.of(context).push(
+          // MaterialPageRoute(
+          //   builder: (context) => BotDetail(botId: bot.chatbot_id.toString()),
+          // ),
+        //);
       },
     );
   }
@@ -71,17 +71,46 @@ class _BotPageState extends State<BotPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
-      appBar: AppBar(title: Text('Bot List')),
-      body: Obx(() =>ListView.builder(
-        controller: scrollController,
-        itemCount: controller.botList.length,
-        itemBuilder: (context, index) {
-          return BotListItem(bot: controller.botList[index]);
-        },
-      )),
+     // appBar: AppBar(title: Text('Bot List')),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CreateBotPageUI()),
+                  );
+                },
+                child: Text('Create Chatbot'),
+              ),
+              SizedBox(width: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BotDetailsScreen(userId: 0, botId: 0)),
+                  );
+                },
+                child: Text('Bot Details'),
+              ),
+            ],
+          ),
+          SizedBox(height: 16.0),
+          Expanded(
+            child: Obx(() => ListView.builder(
+              controller: scrollController,
+              itemCount: controller.botList.length,
+              itemBuilder: (context, index) {
+                return BotListItem(bot: controller.botList[index]);
+              },
+            )),
+          ),
+        ],
+      ),
     );
   }
 }
