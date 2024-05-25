@@ -12,7 +12,7 @@ class MessageController extends GetxController {
   void loadAllMessages(String userId, String botId) async {
     print('[MessageController loadAllMessages]');
     messageList.value = await ChatRepository().getMessages(userId, botId);
-    refresh();
+    update();
   }
 
 
@@ -20,7 +20,7 @@ class MessageController extends GetxController {
     print('[MessageController sendMessage]');
     await ChatRepository().sendMessage(request);
     loadAllMessages(request.userId, request.chatBotId);
-    refresh();
+    update();
   }
 
 

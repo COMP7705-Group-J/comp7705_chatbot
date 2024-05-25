@@ -10,6 +10,14 @@ class SentMessageScreen extends StatelessWidget {
     required this.message,
   }) : super(key: key);
 
+
+  Widget buildAvatar() {
+    return CircleAvatar(
+      backgroundImage: AssetImage('assets/icons/girl1.png'), // 引用图片
+      radius: 22.0, // 头像半径
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final messageTextGroup = Flexible(
@@ -36,11 +44,8 @@ class SentMessageScreen extends StatelessWidget {
             ),
             CustomPaint(painter: CustomShape(Colors.deepPurple!)),
             SizedBox(width: 8), // 头像和消息之间的间距
-            Icon(
-              FontAwesomeIcons.solidUser, // 使用Flutter内置的账号图标作为头像
-              color: Colors.deepPurple,
-              size: 26, // 设置图标大小
-            ),
+            buildAvatar() // 使用头像
+
           ],
         ));
 
