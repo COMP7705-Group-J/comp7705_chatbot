@@ -16,21 +16,20 @@ class BotListItem extends StatelessWidget {
 
   BotListItem({required this.bot});
 
+
+  Widget buildAvatar() {
+    return CircleAvatar(
+      backgroundImage: AssetImage('assets/icons/bot_blue.png'),
+      //radius: 20.0,
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(child: Icon(
-        FontAwesomeIcons.robot, // 使用Flutter内置的账号图标作为头像
-        color: Colors.grey,
-        size: 26, // 设置图标大小
-        )
-      ),
+      leading: buildAvatar(),
       title: Text(bot.chatbot_name),
-      // subtitle: Text(
-      //   '${bot.content}\n${bot.timestamp.toLocal().toString().split(' ')[0]}',
-      //   maxLines: 2,
-      //   overflow: TextOverflow.ellipsis,
-      // ),
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {
         Navigator.of(context).push(

@@ -12,6 +12,13 @@ class ReceivedMessageScreen extends StatelessWidget {
     required this.message,
   }) : super(key: key);
 
+  Widget buildAvatar() {
+    return CircleAvatar(
+      backgroundImage: AssetImage('assets/icons/bot_grey.png'),
+      //radius: 20.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final messageTextGroup = Flexible(
@@ -19,11 +26,12 @@ class ReceivedMessageScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              FontAwesomeIcons.robot, // 使用Flutter内置的账号图标作为头像
-              color: Colors.grey,
-              size: 26, // 设置图标大小
-            ),
+            buildAvatar(), //头像
+            // Icon(
+            //   FontAwesomeIcons.robot, // 使用Flutter内置的账号图标作为头像
+            //   color: Colors.grey,
+            //   size: 26, // 设置图标大小
+            // ),
             SizedBox(width: 10), // 头像和消息之间的间距
             Transform(
               alignment: Alignment.center,
