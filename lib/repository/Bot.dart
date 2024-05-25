@@ -34,9 +34,8 @@ class BotRepository {
   Future<List<Bot>> getBotList(String userId) async {
     print('[BotRepository getBotList], params: {userId: $userId}');
     try {
-
       Map<String, String> params = {'user_id': userId};
-      final response = await httpService.get('http://47.76.114.136:8000/bots/list', params);
+      final response = await httpService.post('http://47.76.114.136:8000/bots/list', params);
       print('response' + response.toString());
       List<Bot> botList = [];
 

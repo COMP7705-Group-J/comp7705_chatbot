@@ -29,10 +29,9 @@ class HttpService {
 
   Future<Map<String, dynamic>> post(String url, Map<String, Object> body) async {
     final headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/x-www-form-urlencode',
     };
     final encodedBody = jsonEncode(body);
-
     final response = await _client.post(
       Uri.parse(url),
       headers: headers,
@@ -45,6 +44,31 @@ class HttpService {
       throw HttpException('POST request failed with status ${response.statusCode}.');
     }
   }
+
+  Future<Map<String, dynamic>> postByForm(String url, Map<String, Object> formData) async {
+    final uri = Uri.parse(url);
+    final headers = {
+      'Content-Type': 'application/x-www-form-urlencode',
+    };
+    final queryParameters = formData.entries.map((entry) =>
+    '${Uri.encodeQueryComponent(entry.key)}=${Uri.encodeQueryComponent(entry.value.toString())}'
+    ).join('&');
+
+    final response = await http.post(uri,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: queryParameters
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      throw HttpException('POST request failed with status ${response.statusCode}.');
+    }
+  }
+
+
+
 
   void close() {
     _client.close();
@@ -63,32 +87,32 @@ class HttpException implements Exception {
   }
 }
 
-// test
+//test
 void main() async {
   final httpService = HttpService();
 
   try {
-    Map<String, String> params = {'user_id': '1'};
-    final resultGet = await httpService.get('http://47.76.114.136:8000/chat/list', params);
-    print(resultGet);
-
-    List<dynamic> dataList = resultGet['data'] as List<dynamic>;
-
-    for (List<dynamic> item in dataList) {
-      int chatbot_id = item[0] as int;
-      String timestamp = item[1] as String;
-      String content = item[2] as String;
-      http://localhost:8080//chat/newChat?userId=1&chatbot_id=1&input=hi
-      print('Chatbot ID: $chatbot_id, Timestamp: $timestamp, Content: $content');
-    }
-
-
-
+    // Map<String, String> params = {'user_id': '1'};
+    // final resultGet = await httpService.get('http://47.76.114.136:8000/chat/list', params);
+    // print(resultGet);
+    //
+    // List<dynamic> dataList = resultGet['data'] as List<dynamic>;
+    //
+    // for (List<dynamic> item in dataList) {
+    //   int chatbot_id = item[0] as int;
+    //   String timestamp = item[1] as String;
+    //   String content = item[2] as String;
+    //   http://localhost:8080//chat/newChat?userId=1&chatbot_id=1&input=hi
+    //   print('Chatbot ID: $chatbot_id, Timestamp: $timestamp, Content: $content');
+    // }
+    final body = {
+      "user_id": 1,
+      "chatbot_name": "LinaBell",
+      "chatbot_type": 0
+    };
     final resultPost = await httpService.post(
       'http://localhost:8000/bots/create',
-      <String, Object> {"user_id":1,
-        "chatbot_name":"Bot-1",
-        "chatbot_type": 0},
+        body
     );
     print(resultPost);
   } on HttpException catch (e) {
@@ -96,3 +120,4 @@ void main() async {
   } finally {
   }
 }
+
