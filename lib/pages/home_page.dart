@@ -1,8 +1,8 @@
 import 'package:comp7705_chatbot/components/bottom_nav_bar.dart';
 import 'package:comp7705_chatbot/const.dart';
-import 'package:comp7705_chatbot/pages/chat_page.dart';
+import 'package:comp7705_chatbot/pages/chat/chat_page.dart';
 import 'package:comp7705_chatbot/pages/profile/profile_page.dart';
-import 'package:comp7705_chatbot/pages/robot_page.dart';
+import 'package:comp7705_chatbot/pages/bot/bot_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       // pages
     final List<Widget> _pages = [
       // robot page
-      const RobotPage(),
+      const BotPage(),
 
       // chat page
       const ChatPage(),

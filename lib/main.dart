@@ -1,5 +1,6 @@
 
 import 'package:comp7705_chatbot/const.dart';
+import 'package:comp7705_chatbot/controller/BotController.dart';
 import 'package:comp7705_chatbot/controller/MessageController.dart';
 import 'package:comp7705_chatbot/pages/home_page.dart';
 import 'package:comp7705_chatbot/pages/sign_regi_welc/Screens/Welcome/welcome_screen.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(ConversationController());
     Get.put(MessageController());
-
+    Get.put(BotController());
     return MaterialApp(
      debugShowCheckedModeBanner: false,
       title: 'COMP7705 ChatBot',

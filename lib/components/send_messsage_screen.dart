@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:comp7705_chatbot/components/custom_shape.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SentMessageScreen extends StatelessWidget {
   final String message;
@@ -13,8 +12,8 @@ class SentMessageScreen extends StatelessWidget {
 
   Widget buildAvatar() {
     return CircleAvatar(
-      backgroundImage: AssetImage('assets/icons/girl1.png'), // 引用图片
-      radius: 22.0, // 头像半径
+      backgroundImage: AssetImage('assets/icons/girl1.png'),
+      radius: 22.0,
     );
   }
 

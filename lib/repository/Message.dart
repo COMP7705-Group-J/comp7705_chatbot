@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
-// import 'package:comp7705_chatbot/components/received_message_screen.dart';
-// import 'package:comp7705_chatbot/components/send_message_screen.dart';
 import 'package:comp7705_chatbot/service/HttpService.dart';
 
 class Message {

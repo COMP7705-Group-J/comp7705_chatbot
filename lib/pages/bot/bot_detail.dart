@@ -1,13 +1,13 @@
+import 'package:comp7705_chatbot/repository/Bot.dart';
 import 'package:flutter/material.dart';
 import 'package:comp7705_chatbot/components/received_message_screen.dart';
 import 'package:comp7705_chatbot/components/send_messsage_screen.dart';
 import 'package:comp7705_chatbot/controller/MessageController.dart';
 import 'package:get/get.dart';
-import '../repository/Message.dart';
+import '../../repository/Message.dart';
 
-class ChatDetail extends StatefulWidget {
-  ChatDetail({key, required this.userId, required this.botId}) : super(key: key);
-  final String userId;
+class BotDetail extends StatefulWidget {
+  BotDetail({key, required this.botId}) : super(key: key);
   final String botId;
 
   @override
@@ -15,7 +15,7 @@ class ChatDetail extends StatefulWidget {
 
 }
 
-class _ChatDetailState extends State<ChatDetail> {
+class _ChatDetailState extends State<BotDetail> {
   String ? _message;
   final TextEditingController _controller = TextEditingController();
   final ScrollController scrollController = ScrollController();
@@ -25,7 +25,7 @@ class _ChatDetailState extends State<ChatDetail> {
   void initState() {
 
     super.initState();
-    messageController.loadAllMessages(widget.userId, widget.botId);
+    //messageController.loadAllMessages(widget.userId, widget.botId);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(Duration.zero, () {
         scrollToBottom();
@@ -47,14 +47,13 @@ class _ChatDetailState extends State<ChatDetail> {
     String message = _controller.text.trim();
     print(message);
     if (message.isNotEmpty) {
-      final newMessage = MessageRequest(
-        chatBotId: widget.botId,
-        userId: widget.userId,
-        input: message,
+      final newMessage = BotRequest(
+        chatbot_name: widget.botId,
+        //userId: widget.userId,
       );
-      messageController.sendMessage(newMessage);
+     // messageController.sendMessage(newMessage);
       _controller.clear();
-      messageController.loadAllMessages(widget.userId, widget.botId);
+      //messageController.loadAllMessages(widget.userId, widget.botId);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Future.delayed(Duration.zero, () {
           scrollToBottom();

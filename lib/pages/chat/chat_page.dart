@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:comp7705_chatbot/repository/Message.dart';
 import 'package:comp7705_chatbot/controller/ConversationController.dart';
 import 'package:get/get.dart';
-import 'package:comp7705_chatbot/pages/chat_detail.dart';
+import 'package:comp7705_chatbot/pages/chat/chat_detail.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
