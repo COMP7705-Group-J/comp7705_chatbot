@@ -3,6 +3,7 @@ import 'package:comp7705_chatbot/const.dart';
 import 'package:comp7705_chatbot/pages/chat/chat_page.dart';
 import 'package:comp7705_chatbot/pages/profile/profile_page.dart';
 import 'package:comp7705_chatbot/pages/bot/bot_page.dart';
+import 'package:comp7705_chatbot/pages/robot/robot_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
