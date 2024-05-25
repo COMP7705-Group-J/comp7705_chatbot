@@ -12,16 +12,18 @@ class ChatDetail extends StatefulWidget {
 
   @override
   _ChatDetailState createState() => _ChatDetailState();
+
 }
 
 class _ChatDetailState extends State<ChatDetail> {
   String ? _message;
   final TextEditingController _controller = TextEditingController();
-  final MessageController messageController = Get.find<MessageController>();
   final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
+    final MessageController messageController = Get.find<MessageController>();
+
     super.initState();
     messageController.loadAllMessages(widget.userId, widget.botId);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -42,6 +44,8 @@ class _ChatDetailState extends State<ChatDetail> {
   }
 
   void _sendMessage() {
+    final MessageController messageController = Get.find<MessageController>();
+
     String message = _controller.text.trim();
     print(message);
     if (message.isNotEmpty) {
@@ -59,7 +63,9 @@ class _ChatDetailState extends State<ChatDetail> {
 
   @override
     Widget build(BuildContext context) {
-     return Scaffold(
+    final MessageController messageController = Get.find<MessageController>();
+
+    return Scaffold(
         appBar: AppBar(
           title: Text(widget.botId),
           leading: IconButton(
