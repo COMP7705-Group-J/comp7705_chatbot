@@ -3,6 +3,7 @@ import 'dart:math' as math; // import this
 
 import 'package:flutter/material.dart';
 import 'package:comp7705_chatbot/components/custom_shape.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ReceivedMessageScreen extends StatelessWidget {
   final String message;
@@ -18,6 +19,12 @@ class ReceivedMessageScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Icon(
+              FontAwesomeIcons.robot, // 使用Flutter内置的账号图标作为头像
+              color: Colors.grey,
+              size: 26, // 设置图标大小
+            ),
+            SizedBox(width: 10), // 头像和消息之间的间距
             Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
@@ -27,7 +34,7 @@ class ReceivedMessageScreen extends StatelessWidget {
             ),
             Flexible(
               child: Container(
-                padding: EdgeInsets.all(14),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.grey[350],
                   borderRadius: BorderRadius.only(

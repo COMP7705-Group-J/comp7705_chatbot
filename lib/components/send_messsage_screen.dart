@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:comp7705_chatbot/components/custom_shape.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SentMessageScreen extends StatelessWidget {
   final String message;
@@ -18,7 +19,7 @@ class SentMessageScreen extends StatelessWidget {
           children: [
             Flexible(
               child: Container(
-                padding: EdgeInsets.all(14),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.deepPurple,
                   borderRadius: BorderRadius.only(
@@ -34,6 +35,12 @@ class SentMessageScreen extends StatelessWidget {
               ),
             ),
             CustomPaint(painter: CustomShape(Colors.deepPurple!)),
+            SizedBox(width: 8), // 头像和消息之间的间距
+            Icon(
+              FontAwesomeIcons.circleUser, // 使用Flutter内置的账号图标作为头像
+              color: Colors.deepPurple,
+              size: 26, // 设置图标大小
+            ),
           ],
         ));
 
