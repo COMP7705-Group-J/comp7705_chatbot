@@ -2,7 +2,7 @@ import 'package:comp7705_chatbot/components/bottom_nav_bar.dart';
 import 'package:comp7705_chatbot/const.dart';
 import 'package:comp7705_chatbot/pages/chat_page.dart';
 import 'package:comp7705_chatbot/pages/profile/profile_page.dart';
-import 'package:comp7705_chatbot/pages/robot_page.dart';
+import 'package:comp7705_chatbot/pages/robot/robot_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
