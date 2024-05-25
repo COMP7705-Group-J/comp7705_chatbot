@@ -16,13 +16,23 @@ class MessageListItem extends StatelessWidget {
 
   MessageListItem({required this.message});
 
+
+  Widget buildAvatar() {
+    return CircleAvatar(
+      backgroundImage: AssetImage('assets/icons/bot_blue.png'),
+      radius: 20.0,
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(child: Text(message.chatBotId)),
-      title: Text(message.chatBotId),
+      leading: buildAvatar(),
+      title: Text(message.chatBotName),
       subtitle: Text(
-        '${message.content}\n${message.timestamp.toLocal().toString().split(' ')[0]}',
+        '${message.content}\n${message.timestamp.split(' ')[0]}',
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),

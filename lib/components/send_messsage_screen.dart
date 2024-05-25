@@ -43,7 +43,7 @@ class SentMessageScreen extends StatelessWidget {
             ),
             CustomPaint(painter: CustomShape(Colors.deepPurple!)),
             SizedBox(width: 8), // 头像和消息之间的间距
-            buildAvatar() // 使用头像
+            buildAvatar() // 头像
 
           ],
         ));
