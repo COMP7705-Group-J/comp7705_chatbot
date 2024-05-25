@@ -47,9 +47,9 @@ class BotRepository {
       List<Bot> dataList = response['data'] as List<Bot>;
       for (Bot item in dataList) {
         String chatBotName = item.chatbot_name;
-        String createdAt = item.create_at;
+        String ?createdAt = item.create_at;
         int chatbotType = item.chatbot_type;
-        String chatbotPersona = item.chatbot_persona;
+        String ?chatbotPersona = item.chatbot_persona;
         Bot bot = Bot(chatbot_name: chatBotName, create_at: createdAt, chatbot_type: chatbotType,
           chatbot_persona: chatbotPersona);
         botList.add(bot);
