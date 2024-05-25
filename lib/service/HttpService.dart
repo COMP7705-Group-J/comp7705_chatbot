@@ -29,7 +29,7 @@ class HttpService {
 
   Future<Map<String, dynamic>> post(String url, Map<String, Object> body) async {
     final headers = {
-      'Content-Type': 'application/x-www-form-urlencode',
+      'Content-Type': 'application/json; Ur',
     };
     final encodedBody = jsonEncode(body);
     final response = await _client.post(

@@ -2,12 +2,13 @@ import 'dart:async';
 import 'package:comp7705_chatbot/service/HttpService.dart';
 
 class Message {
+  String chatBotName;
   String chatBotId;
   bool byUser;
   String content;
-  DateTime timestamp;
+  String timestamp;
 
-  Message({required this.chatBotId, required this.byUser, required this.content, required this.timestamp});
+  Message({required this.chatBotName, required this.chatBotId, required this.byUser, required this.content, required this.timestamp});
 }
 
 class MessageRequest {
@@ -39,11 +40,12 @@ class ChatRepository {
       List<Message> chatList = [];
       for (List<dynamic> item in dataList) {
         int chatbot_id = item[0] as int;
-        String timestamp = item[1] as String;
-        String content = item[2] as String;
-        Message message = Message(chatBotId: chatbot_id.toString(), byUser: false, content: content, timestamp: DateTime.parse(timestamp));
+        String chatbot_name = item[1] as String;
+        String timestamp = item[2] as String;
+        String content = item[3] as String;
+        Message message = Message(chatBotName: chatbot_name.toString(), chatBotId: chatbot_id.toString(), byUser: false, content: content, timestamp: timestamp);
         chatList.add(message);
-        print('Chatbot ID: $chatbot_id, Timestamp: $timestamp, Content: $content');
+        print('Chatbot ID: $chatbot_id, Chatbot Name: $chatbot_name, Timestamp: $timestamp, Content: $content');
       }
       return chatList;
 
@@ -69,7 +71,7 @@ class ChatRepository {
         bool by_user = item[1] as int == 1 ? true : false;
 
         String timestamp = item[2] as String;
-        Message message = Message(chatBotId: '', byUser: by_user, content: content, timestamp: DateTime.parse(timestamp));
+        Message message = Message(chatBotId: '', chatBotName: '', byUser: by_user, content: content, timestamp: timestamp);
         messageList.add(message);
         print('by_user: $by_user, Timestamp: $timestamp, Content: $content');
       }
@@ -90,7 +92,7 @@ class ChatRepository {
     String input = request.input;
     try {
       Map<String, String> params = {'user_id': userId, 'chatbot_id': botId, 'input': input};
-      final response = await httpService.post('http://47.76.114.136:8000/chat/new_chat', params);
+      final response = await httpService.postByForm('http://47.76.114.136:8000/chat/new_chat', params);
       print('response' + response.toString());
       String data = response['data'] as String;
 

@@ -78,25 +78,25 @@ class _BotPageState extends State<BotPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CreateBotPageUI()),
-                  );
-                },
-                child: Text('Create Chatbot'),
-              ),
-              SizedBox(width: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BotDetailsScreen(userId: 0, botId: 0)),
-                  );
-                },
-                child: Text('Bot Details'),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => CreateBotPageUI()),
+              //     );
+              //   },
+              //   child: Text('Create Chatbot'),
+              // ),
+              // SizedBox(width: 16.0),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => BotDetailsScreen(userId: 0, botId: 0)),
+              //     );
+              //   },
+              //   child: Text('Bot Details'),
+              // ),
             ],
           ),
           SizedBox(height: 16.0),
