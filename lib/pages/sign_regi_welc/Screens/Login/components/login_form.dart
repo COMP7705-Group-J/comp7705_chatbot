@@ -1,10 +1,11 @@
 import 'package:comp7705_chatbot/pages/home_page.dart';
 import 'package:comp7705_chatbot/service/auth_service.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart' show rootBundle;
 import '../../../components/already_have_an_account_acheck.dart';
 import 'package:comp7705_chatbot/const.dart';
 import '../../Signup/signup_screen.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -20,6 +21,8 @@ class _LoginFormState extends State<LoginForm> {
   String? _username;
   String? _password;
   bool _isObscure = true;
+  bool _agreedToTerms = false;
+  bool _agreedToPrivacy = false;
   //final _authService = AuthService();
 
   Future<void> _onLogin() async {
@@ -99,9 +102,83 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
-          const SizedBox(height: defaultPadding),
+          const SizedBox(height: defaultPadding/2),
+          Row(
+              children: [
+                Checkbox(
+                  value: _agreedToTerms,
+                  onChanged: (value) {
+                    setState(() {
+                      _agreedToTerms = value!;
+                    });
+                  },
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TermsOfServicePage()),
+                      );
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(text: 'I have read and agree to the ',style: TextStyle(color: Colors.black), ),
+                          TextSpan(
+                            text: '"Terms & Conditions"',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: defaultPadding/2),
+            Row(
+              children: [
+                Checkbox(
+                  value: _agreedToPrivacy,
+                  onChanged: (value) {
+                    setState(() {
+                      _agreedToPrivacy = value!;
+                    });
+                  },
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PrivacyPolicyPage()),
+                      );
+                    },
+                    child: RichText(
+                      text: const TextSpan(
+                        children: [
+                          TextSpan(text: 'I have read and agree to the ',style: TextStyle(color: Colors.black),),
+                          TextSpan(
+                            text: '"Privacy Policy"',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          const SizedBox(height: defaultPadding/2),
           ElevatedButton(
-            onPressed: _onLogin,
+            onPressed: _agreedToTerms && _agreedToPrivacy ? _onLogin : null,
             child: Text(
               "Login".toUpperCase(),
             ),
@@ -120,6 +197,110 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
         ],
+      ),
+    );
+  }
+}
+Future<String> _loadTermsOfServiceFromAsset() async {
+    return await rootBundle.loadString('assets/markdown/terms_and_conditions.md');
+  }
+
+class TermsOfServicePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Terms & Conditions'),
+      ),
+      body: FutureBuilder<String>(
+        future: _loadTermsOfServiceFromAsset(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Markdown(data: snapshot.data!);
+            // return Padding(
+            //   padding: EdgeInsets.all(16.0),
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         'Terms of Service',
+            //         style: TextStyle(
+            //           fontSize: 18.0,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.blue,
+            //         ),
+            //       ),
+            //       SizedBox(height: 16.0),
+            //       Expanded(
+            //         child: SingleChildScrollView(
+            //           child: Text(snapshot.data!),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            //);
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error loading Terms of Service'),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+Future<String> _loadPrivacyPolicyFromAsset() async {
+    return await rootBundle.loadString('assets/markdown/privacy_policy.md');
+  }
+
+class PrivacyPolicyPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Privacy Policy'),
+      ),
+       body: FutureBuilder<String>(
+        future: _loadPrivacyPolicyFromAsset(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Markdown(data: snapshot.data!);
+            // return Padding(
+            //   padding: EdgeInsets.all(16.0),
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         'Terms of Service',
+            //         style: TextStyle(
+            //           fontSize: 18.0,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.blue,
+            //         ),
+            //       ),
+            //       SizedBox(height: 16.0),
+            //       Expanded(
+            //         child: SingleChildScrollView(
+            //           child: Text(snapshot.data!),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            //);
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error loading Privacy Policy'),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }

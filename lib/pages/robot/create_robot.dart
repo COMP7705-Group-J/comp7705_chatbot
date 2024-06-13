@@ -65,7 +65,7 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
             const CircleAvatar(
               radius: 50,
               child:Center(
-              child: Icon(FontAwesomeIcons.robot, size: 50),
+              child: Icon(Icons.android, size: 50),
               )
             ),
             const SizedBox(height: 32),
