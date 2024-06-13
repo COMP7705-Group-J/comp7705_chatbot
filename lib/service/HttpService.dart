@@ -91,14 +91,11 @@ class HttpException implements Exception {
 //test
 void main() async {
   final httpService = HttpService();
-
   try {
     // Map<String, String> params = {'user_id': '1'};
     // final resultGet = await httpService.get('http://47.76.114.136:8000/chat/list', params);
     // print(resultGet);
-    //
     // List<dynamic> dataList = resultGet['data'] as List<dynamic>;
-    //
     // for (List<dynamic> item in dataList) {
     //   int chatbot_id = item[0] as int;
     //   String timestamp = item[1] as String;
@@ -108,8 +105,8 @@ void main() async {
     // }
     final body = {
       "user_id": 1,
-      "chatbot_id": "9435",
-      "input": 'You have a good memory!'
+      "chatbot_id": 1,
+      "input": 'Hi!'
     };
     print(body);
     final resultPost = await httpService.postByForm(
