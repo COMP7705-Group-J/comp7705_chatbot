@@ -1,5 +1,6 @@
 import 'dart:async';
 //import 'dart:ffi';
+import 'package:comp7705_chatbot/const.dart';
 import 'package:comp7705_chatbot/service/HttpService.dart';
 
 class Bot {
@@ -36,7 +37,7 @@ class BotRepository {
     print('[BotRepository getBotList], params: {userId: $userId}');
     try {
       Map<String, String> params = {'user_id': userId};
-      final response = await httpService.postByForm('http://47.76.114.136:8000/bots/list', params);
+      final response = await httpService.postByForm(proApiUrl + 'bots/list', params);
       print('response' + response.toString());
       List<Bot> botList = [];
 
@@ -72,7 +73,7 @@ class BotRepository {
     };
     print('[BotRepository createBot], params: $botparams');
     try {
-      final response = await httpService.postByForm('http://47.76.114.136:8000/bots/create', botparams);
+      final response = await httpService.postByForm(proApiUrl + 'bots/create', botparams);
       print('response' + response.toString());
       int code = response['code'] as int;
       print('code' + code.toString());

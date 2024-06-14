@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:comp7705_chatbot/const.dart';
 import 'package:http/http.dart' as http;
 
 class HttpService {
@@ -93,7 +94,7 @@ void main() async {
   final httpService = HttpService();
   try {
     // Map<String, String> params = {'user_id': '1'};
-    // final resultGet = await httpService.get('http://47.76.114.136:8000/chat/list', params);
+    // final resultGet = await httpService.get(proApiUrl + 'chat/list', params);
     // print(resultGet);
     // List<dynamic> dataList = resultGet['data'] as List<dynamic>;
     // for (List<dynamic> item in dataList) {
@@ -110,7 +111,7 @@ void main() async {
     };
     print(body);
     final resultPost = await httpService.postByForm(
-      'http://47.76.114.136:8000/chat/new_chat',
+        proApiUrl + 'chat/new_chat',
         body
     );
     print(resultPost);
