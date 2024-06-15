@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:comp7705_chatbot/const.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
@@ -9,7 +10,7 @@ class AuthService {
     String password,
     String? email,
   ) async {
-    final url = Uri.parse('http://47.76.114.136:8000/users/register/');
+    final url = Uri.parse(proApiUrl + 'users/register/');
     final body = {
       'username': username,
       'password': password,
@@ -35,7 +36,7 @@ class AuthService {
     String usernameOrEmail,
     String password,
   ) async {
-    final url = Uri.parse('http://47.76.114.136:8000/login/');
+    final url = Uri.parse(proApiUrl + 'login/');
     final body = {
       'username': usernameOrEmail,
       'password': password,
@@ -62,7 +63,7 @@ class AuthService {
     String? password,
     String? email,
   ) async {
-    final url = Uri.parse('http://47.76.114.136:8000/users/users/$userId/');
+    final url = Uri.parse(proApiUrl + 'users/users/$userId/');
     final body = {
       if (username != null) 'username': username,
       if (password != null) 'password': password,
