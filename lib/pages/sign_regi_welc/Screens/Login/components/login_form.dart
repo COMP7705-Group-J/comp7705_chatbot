@@ -1,3 +1,4 @@
+import 'package:comp7705_chatbot/controller/UserDataController.dart';
 import 'package:comp7705_chatbot/pages/home_page.dart';
 import 'package:comp7705_chatbot/service/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final userDataController = UserDataController();
   final _formKey = GlobalKey<FormState>();
   String? _username;
   String? _password;
@@ -30,8 +32,13 @@ class _LoginFormState extends State<LoginForm> {
       _formKey.currentState?.save();
       // Perform login logic with _username and _password
       try {
-        final tokens = await AuthService.login(_username!, _password!);
-        print('Access Token: $tokens');
+        final loginRes = await AuthService.login(_username!, _password!);
+        int userId = loginRes['user_id'];
+        String accessToken = loginRes['access'];
+        //存储userId和token
+        await UserDataController.saveUserId(userId);
+        await UserDataController.saveToken(accessToken);
+        print('Login: $userId');
         // 登录成功后，导航到主页面
         Navigator.push(
           context,

@@ -6,19 +6,21 @@ import 'package:comp7705_chatbot/service/HttpService.dart';
 class Bot {
   int ? user_id;
   int ? chatbot_id;
-  String chatbot_name;
-  int chatbot_type;
-  String ? chatbot_persona;
-  String ? create_at;
-  Bot({this.user_id,this.chatbot_id, this.create_at,this.chatbot_persona,required this.chatbot_name, required this.chatbot_type,
-     });
-}
-
-class BotRequest {
   String ? chatbot_name;
   int ? chatbot_type;
   String ? chatbot_persona;
-  BotRequest({ this.chatbot_name, this.chatbot_type, this.chatbot_persona});
+  String ? create_at;
+  Bot({this.user_id,required this.chatbot_id, this.create_at,this.chatbot_persona,required this.chatbot_name, required this.chatbot_type,
+     });
+
+}
+
+class BotRequest {
+  int ? user_id;
+  String chatbot_name;
+  int ? chatbot_type;
+  String ? chatbot_persona;
+  BotRequest({this.user_id, required this.chatbot_name, this.chatbot_type, this.chatbot_persona});
 }
 
 
@@ -47,11 +49,13 @@ class BotRepository {
       }
       List<dynamic> dataList = response['data'] as List<dynamic>;
       for (dynamic item in dataList) {
+        int ? userId = item['user_id'];
+        int chatBotId = item['chatbot_id'];
         String chatBotName = item['chatbot_name'];
         String createdAt = item['create_at'];
         int chatbotType = item['chatbot_type'];
-        String chatbotPersona = item['chatbot_persona'];
-        Bot bot = Bot(chatbot_name: chatBotName, create_at: createdAt, chatbot_type: chatbotType,
+        String chatbotPersona = item['chatbot_persona'] == null ? "" : item['chatbot_persona'];
+        Bot bot = Bot(user_id: userId, chatbot_id: chatBotId, chatbot_name: chatBotName, create_at: createdAt, chatbot_type: chatbotType,
           chatbot_persona: chatbotPersona);
         botList.add(bot);
         print('chatBotName: $chatBotName, chatbotPersona: $chatbotPersona, chatbotType: $chatbotType');
@@ -64,7 +68,8 @@ class BotRepository {
     }
   }
 
-  Future<int> createBot(Bot bot) async {
+
+  Future<int> createBot(BotRequest bot) async {
     Map<String, String> botparams = {
       'user_id': bot.user_id.toString(),
       'chatbot_name': bot.chatbot_name,

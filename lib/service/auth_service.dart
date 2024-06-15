@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:comp7705_chatbot/const.dart';
 import 'package:http/http.dart' as http;
+import 'package:comp7705_chatbot/controller/UserDataController.dart';
 
 class AuthService {
   static final _client = http.Client();
@@ -80,6 +81,7 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
+      //print("login response:" +jsonDecode(response.body));
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
       final errorBody = jsonDecode(response.body) as Map<String, dynamic>;

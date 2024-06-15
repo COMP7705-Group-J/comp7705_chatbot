@@ -3,6 +3,7 @@ import 'package:comp7705_chatbot/repository/Message.dart';
 import 'package:comp7705_chatbot/controller/ConversationController.dart';
 import 'package:get/get.dart';
 import 'package:comp7705_chatbot/pages/chat/chat_detail.dart';
+import 'package:comp7705_chatbot/controller/UserDataController.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -13,8 +14,9 @@ class ChatPage extends StatefulWidget {
 
 class MessageListItem extends StatelessWidget {
   final Message message;
+  String userId = '';
 
-  MessageListItem({required this.message});
+  MessageListItem({required this.message, required this.userId});
 
 
   Widget buildAvatar() {
@@ -23,7 +25,6 @@ class MessageListItem extends StatelessWidget {
       radius: 20.0,
     );
   }
-
 
 
   @override
@@ -40,7 +41,7 @@ class MessageListItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ChatDetail(userId: '1',
+            builder: (context) => ChatDetail(userId: userId,
                 botId: message.chatBotId,
                 botName: message.chatBotName),
           ),
@@ -59,7 +60,7 @@ class MessageListScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: controller.chatList.length,
         itemBuilder: (context, index) {
-          return MessageListItem(message: controller.chatList[index]);
+          //return MessageListItem(message: controller.chatList[index],userId: _userId);
         },
       ),
     );
@@ -70,11 +71,28 @@ class MessageListScreen extends StatelessWidget {
 class _ChatPageState extends State<ChatPage> {
   final ConversationController controller = Get.find<ConversationController>();
   final ScrollController scrollController = ScrollController();
+  String _userId = '';
 
   @override
   void initState() {
     super.initState();
-    controller.getChatList('1');
+    _retrieveAndUseUserId();
+  }
+
+
+  Future<String> _getUserId() async {
+    int ? userId = await UserDataController.getUserId();
+    if (userId != 0) {
+      setState(() {
+        _userId = userId.toString();
+      });
+    }
+    return _userId;
+  }
+
+  Future<void> _retrieveAndUseUserId() async {
+    await _getUserId();
+    controller.getChatList(_userId);
   }
 
   @override
@@ -86,7 +104,7 @@ class _ChatPageState extends State<ChatPage> {
         controller: scrollController,
         itemCount: controller.chatList.length,
         itemBuilder: (context, index) {
-          return MessageListItem(message: controller.chatList[index]);
+          return MessageListItem(message: controller.chatList[index], userId: _userId);
         },
       )),
     );

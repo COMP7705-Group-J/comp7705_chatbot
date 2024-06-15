@@ -4,6 +4,7 @@ import 'package:comp7705_chatbot/repository/Bot.dart';
 import 'package:comp7705_chatbot/service/bot_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:comp7705_chatbot/controller/UserDataController.dart';
 
 class CreateBotPageUI extends StatefulWidget {
   const CreateBotPageUI({Key? key}) : super(key: key);
@@ -18,14 +19,24 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
   int _botType = 0; // Default bot type
   String _botPersona = '';
   BotRepository repository = BotRepository();
+  int _userId = 0;
+
+  Future<void> _getUserId() async {
+    int ? userId = await UserDataController.getUserId();
+    setState(() {
+      _userId = userId ?? 0;
+    });
+  }
+
 
   Future<void> _createBot() async {
+    await _getUserId();
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
       try {
-        final userId = 1; // Replace with the actual user ID
-        Bot botReq = Bot(
-          user_id:userId,
+        final userId = _userId; // Replace with the actual user ID
+        BotRequest botReq = BotRequest(
+          user_id:_userId,
           chatbot_name:_botName,
           chatbot_type:_botType,
           chatbot_persona:_botPersona,

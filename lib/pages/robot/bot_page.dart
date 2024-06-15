@@ -5,6 +5,8 @@ import 'package:comp7705_chatbot/repository/Bot.dart';
 import 'package:comp7705_chatbot/pages/robot/botdetail.dart';
 import 'package:comp7705_chatbot/pages/robot/create_robot.dart';
 import 'package:comp7705_chatbot/const.dart';
+import 'package:comp7705_chatbot/controller/UserDataController.dart';
+
 class BotPage extends StatefulWidget {
   const BotPage({super.key});
 
@@ -14,8 +16,10 @@ class BotPage extends StatefulWidget {
 
 class BotListItem extends StatelessWidget {
   final Bot bot;
+  final String userId;
 
-  BotListItem({required this.bot});
+
+  BotListItem({required this.bot, required this.userId});
 
 
   Widget buildAvatar() {
@@ -30,14 +34,17 @@ class BotListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: buildAvatar(),
-      title: Text(bot.chatbot_name),
+      title: Text(bot.chatbot_name ?? ''),
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {
-        //Navigator.of(context).push(
-         
-          //    MaterialPageRoute(builder: (context) => BotDetailsScreen(userId: 0, botId: 0)),
+        Navigator.of(context).push(
+             MaterialPageRoute(
+               builder: (context) => BotDetailsScreen(
+                   userId: int.parse(userId),
+                   botId: bot.chatbot_id ?? 0),
+             ),
           
-        //);
+        );
       },
     );
   }
@@ -52,7 +59,7 @@ class BotListScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: controller.botList.length,
         itemBuilder: (context, index) {
-          return BotListItem(bot: controller.botList[index]);
+         // return BotListItem(bot: controller.botList[index]);
         },
       ),
     );
@@ -63,12 +70,32 @@ class BotListScreen extends StatelessWidget {
 class _BotPageState extends State<BotPage> {
   final BotController controller = Get.find<BotController>();
   final ScrollController scrollController = ScrollController();
+  String _userId = '';
+
+  Future<String> _getUserId() async {
+    int ? userId = await UserDataController.getUserId();
+    if (userId != 0) {
+      setState(() {
+        _userId = userId.toString();
+      });
+    }
+    return _userId;
+  }
+
+  Future<void> _retrieveAndUseUserId() async {
+    await _getUserId();
+    controller.getBotList(_userId); // 现在userId已经被正确设置了
+  }
+
 
   @override
   void initState() {
     super.initState();
-    controller.getBotList('1');
+    _getUserId();
+    _retrieveAndUseUserId();
+    //controller.getBotList(_userId);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +155,7 @@ class _BotPageState extends State<BotPage> {
             controller: scrollController,
             itemCount: controller.botList.length,
             itemBuilder: (context, index) {
-              return BotListItem(bot: controller.botList[index]);
+              return BotListItem(bot: controller.botList[index], userId: _userId);
             },
           )),
         ),

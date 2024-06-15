@@ -14,14 +14,18 @@ class UserDataController {
     return prefs.getString('token');
   }
 
-  static Future<void> saveUserId(String userId) async {
+  static Future<void> saveUserId(int userId) async {
+    print("saveUserId: ${userId}");
+
     final SharedPreferences prefs = await _prefs;
-    await prefs.setString('userid', userId);
+    await prefs.setInt('userid', userId);
   }
 
-  static Future<String?> getUserId() async {
+  static Future<int?> getUserId() async {
     final SharedPreferences prefs = await _prefs;
-    return prefs.getString('userid');
+    int ? userId = prefs.getInt('userid');
+    print("GetUserId: ${userId}");
+    return userId;
   }
 
 
@@ -37,14 +41,14 @@ void main() async {
 
   //调用api
   String token = 'your_token_here';
-  String userId = 'your_user_id_here';
+  int userId = 1;
 
   // 存储token和userid
   await UserDataController.saveToken(token);
   await UserDataController.saveUserId(userId);
 
   String? retrievedToken = await UserDataController.getToken();
-  String? retrievedUserId = await UserDataController.getUserId();
+  int retrievedUserId = await UserDataController.getUserId() ?? 0;
   print('Token: $retrievedToken');
   print('User ID: $retrievedUserId');
 

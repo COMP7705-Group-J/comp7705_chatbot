@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:comp7705_chatbot/service/bot_service.dart';
+import 'package:comp7705_chatbot/repository/Bot.dart';
+
 class BotDetailsScreen extends StatefulWidget {
   final int userId;
   final int botId;
@@ -14,7 +16,7 @@ class BotDetailsScreen extends StatefulWidget {
 }
 
 class _BotDetailsScreenState extends State<BotDetailsScreen> {
-  late Map<String, dynamic> _botDetails;
+  late Bot _botDetails;
   bool _isLoading = true;
 
   @override
@@ -25,10 +27,7 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
 
   Future<void> _fetchBotDetails() async {
     try {
-      _botDetails = await BotsService.getBotDetails(
-        userId: widget.userId,
-        botId: widget.botId,
-      );
+      _botDetails = await BotsService.getBotDetail(widget.userId, widget.botId);
       setState(() {
         _isLoading = false;
       });
@@ -74,16 +73,16 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Bot Name: ${_botDetails['chatbot_name']}',
+                    'Bot Name: ${_botDetails.chatbot_name}',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  if (_botDetails['chatbot_type'] == 1)
+                  if (_botDetails.chatbot_type == 1)
                     Text(
-                      'Bot Persona: ${_botDetails['chatbot_persona']}',
+                      'Bot Persona: ${_botDetails.chatbot_persona}',
                       style: TextStyle(fontSize: 16.0),
                     ),
                   SizedBox(height: 16.0),
