@@ -1,10 +1,11 @@
 import 'package:comp7705_chatbot/pages/robot/bot_page.dart';
-import 'package:comp7705_chatbot/pages/robot/robot_page.dart';
 import 'package:comp7705_chatbot/repository/Bot.dart';
-import 'package:comp7705_chatbot/service/bot_service.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:comp7705_chatbot/controller/UserDataController.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../../controller/BotController.dart';
 
 class CreateBotPageUI extends StatefulWidget {
   const CreateBotPageUI({Key? key}) : super(key: key);
@@ -17,15 +18,22 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
   final _formKey = GlobalKey<FormState>();
   String _botName = '';
   int _botType = 0; // Default bot type
-  String _botPersona = '';
+  String _botPersona = 'Default';
   BotRepository repository = BotRepository();
   int _userId = 0;
+  List<DropdownMenuItem<String>> personalist = [];
 
   Future<void> _getUserId() async {
     int ? userId = await UserDataController.getUserId();
     setState(() {
       _userId = userId ?? 0;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPersonalist();
   }
 
 
@@ -61,6 +69,20 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
       }
     }
   }
+
+
+  // 调用personalist接口
+  void _fetchPersonalist() async {
+    final BotController controller = Get.find<BotController>();
+    List<String> result = await controller.getPersonalist();
+    setState(() {
+      for (String item in result) {
+        DropdownMenuItem<String> menuItem = DropdownMenuItem(value: item.toString(), child: Text(item.toString()),);
+        personalist.add(menuItem);
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -119,15 +141,29 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
                   ),
                   const SizedBox(height: 16),
                   if (_botType == 1)
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Bot Persona',
-                        border: OutlineInputBorder(),
-                      ),
-                      onSaved: (value) {
-                        _botPersona = value ?? '';
-                      },
-                    ),
+                    // TextFormField(
+                    //   decoration: const InputDecoration(
+                    //     labelText: 'Bot Persona',
+                    //     border: OutlineInputBorder(),
+                    //   ),
+                    //   onSaved: (value) {
+                    //     _botPersona = value ?? '';
+                    //   },
+                    // ),
+                    //TODO getPersonList
+                    // DropdownButtonFormField<String>(
+                    //   decoration: const InputDecoration(
+                    //     labelText: 'Select Persona',
+                    //     border: OutlineInputBorder(),
+                    //   ),
+                    //   value: _botPersona,
+                    //   //items: personalist,
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       _botPersona = value ?? '';
+                    //     });
+                    //   },
+                    // ),
                   const SizedBox(height: 32),
                   ElevatedButton(
                     onPressed: _createBot,

@@ -82,9 +82,8 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
                   children: [
                     CircleAvatar(
                       radius: 90,
-                      child: Center(
-                        child: Icon(Icons.android, size: 100),
-                      ),
+                      backgroundImage: AssetImage('assets/icons/olu.jpg'),
+
                     ),
                     SizedBox(height: 16),
                     Text(
@@ -109,40 +108,40 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
             //   style: TextStyle(fontSize: 16.0),
             //   textAlign: TextAlign.left, // 文本靠左
             // ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Bot Persona: ',
-                    style: TextStyle(fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-
-                  ),
-                  TextSpan(
-                    //TODO fix hard code
-                  text: 'Friendly',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                  TextSpan(
-                    //TODO fix hard code
-                    text: '  Patient',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                ],
-
-              ),
-
-            ),
+            // RichText(
+            //   text: TextSpan(
+            //     children: [
+            //       TextSpan(
+            //         text: 'Bot Persona: ',
+            //         style: TextStyle(fontSize: 16.0,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.black,
+            //         ),
+            //
+            //       ),
+            //       TextSpan(
+            //         //TODO fix hard code
+            //       text: 'Friendly',
+            //         style: TextStyle(
+            //           fontSize: 16.0,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.deepPurple,
+            //         ),
+            //       ),
+            //       TextSpan(
+            //         //TODO fix hard code
+            //         text: '  Patient',
+            //         style: TextStyle(
+            //           fontSize: 16.0,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.deepPurple,
+            //         ),
+            //       ),
+            //     ],
+            //
+            //   ),
+            //
+            // ),
             SizedBox(height: 12.0),
             RichText(
               text: TextSpan(
@@ -157,7 +156,31 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
                   ),
                   TextSpan(
                     //TODO fix hard code
-                    text: 'Customized',
+                    text: 'Default Bot',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 16),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Created At: ',
+                    style: TextStyle(fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+
+                  ),
+                  TextSpan(
+                    //TODO fix hard code
+                    text: '2024-06-16 14:00',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
@@ -191,10 +214,14 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) =>
-                            ChatDetail(userId: _botDetails.user_id.toString(),
-                                botId: _botDetails.user_id.toString(),
-                                botName: _botDetails.chatbot_name ?? '')),
+                            ChatDetail(userId: '1',
+                                botId: '10277',
+                                botName: 'Olu')),
                       );
+                      //       ChatDetail(userId: _botDetails.user_id.toString(),
+                      //           botId: _botDetails.user_id.toString(),
+                      //           botName: _botDetails.chatbot_name ?? '')),
+                      // );
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

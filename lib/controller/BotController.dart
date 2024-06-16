@@ -13,6 +13,10 @@ class BotController extends GetxController {
     update();
   }
 
-  
+  Future<List<String>> getPersonalist() async {
+    return await BotRepository().getPersonaList();
+  }
+
+
 
 }

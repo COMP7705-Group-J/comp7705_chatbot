@@ -98,6 +98,30 @@ class BotRepository {
   }
 
 
+  Future<List<String>> getPersonaList() async {
+    print('[BotRepository getPersonaList]');
+    try {
+     final response = await httpService.get(proApiUrl + 'bots/get_persona', {});
+      print('response' + response.toString());
+      List<String> personaList = [];
+
+      int code = response['code'] as int;
+      if (code == -1) {
+        return personaList;
+      }
+      List<dynamic> data = response['data'] as List<dynamic>;
+      for (dynamic item in data) {
+        String personaName = item.toString();
+        print('persona: ${personaName}');
+        personaList.add(personaName);
+      }
+      return personaList;
+    } on HttpException catch (e) {
+      throw HttpException('GetBotList Failed');
+    } finally {
+    }
+  }
+
 
 
 }
