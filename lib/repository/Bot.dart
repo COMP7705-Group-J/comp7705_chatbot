@@ -97,11 +97,34 @@ class BotRepository {
     }
   }
 
-
-
-
+  Future<List<String>> getBotPersona() async {
+    print('[BotRepository getBotPersona]');
+    try {
+      final response = await httpService.getWithO(proApiUrl + 'bots/get_persona');
+      print('response' + response.toString());
+      int code = response['code'] as int;
+      if (code == -1) {
+        return [];
+      }
+      List<dynamic> dataList = response['data'] as List<dynamic>;
+      List<String> personas = dataList.map((item) => item as String).toList();
+      return personas;
+    } on HttpException catch (e) {
+      throw HttpException('GetBotPersona Failed');
+    } finally {
+    }
+  }
 }
 
+Future<void> main() async {
+  final botRepository = BotRepository();
+  try {
+    final botPersonas = await botRepository.getBotPersona();
+    print('Available Bot Personas: $botPersonas');
+  } catch (e) {
+    print('Error in main: $e');
+  }
+}
 
 
 

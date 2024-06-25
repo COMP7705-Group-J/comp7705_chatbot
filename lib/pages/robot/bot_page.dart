@@ -100,6 +100,7 @@ class _BotPageState extends State<BotPage> {
   @override
   Widget build(BuildContext context) {
   return Scaffold(
+    appBar: AppBar(title: Text('Bot List')),
     body: Column(
       children: [
         SizedBox(height: 8.0),
@@ -126,25 +127,25 @@ class _BotPageState extends State<BotPage> {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                     ),
-                    child: Text('Create Chatbot'),
+                    child: Text('Create Bot'),
                   ),
                 ),
                 SizedBox(width: 8.0),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      // add your button functionality here
-                    },
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        side: BorderSide(color: mainColor, width: 2.0),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                    ),
-                    child: Text('New Chat'),
-                  ),
-                ),
+                // Expanded(
+                //   child: TextButton(
+                //     onPressed: () {
+                //       // add your button functionality here
+                //     },
+                //     style: TextButton.styleFrom(
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(12.0),
+                //         side: BorderSide(color: mainColor, width: 2.0),
+                //       ),
+                //       padding: EdgeInsets.symmetric(vertical: 16.0),
+                //     ),
+                //     child: Text('New Chat'),
+                //   ),
+                // ),
               ],
             ),
           ),

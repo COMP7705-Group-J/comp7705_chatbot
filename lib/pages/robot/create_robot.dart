@@ -1,3 +1,4 @@
+import 'package:comp7705_chatbot/controller/BotController.dart';
 import 'package:comp7705_chatbot/pages/robot/bot_page.dart';
 import 'package:comp7705_chatbot/pages/robot/robot_page.dart';
 import 'package:comp7705_chatbot/repository/Bot.dart';
@@ -5,6 +6,7 @@ import 'package:comp7705_chatbot/service/bot_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:comp7705_chatbot/controller/UserDataController.dart';
+import 'package:get/get.dart';
 
 class CreateBotPageUI extends StatefulWidget {
   const CreateBotPageUI({Key? key}) : super(key: key);
@@ -64,6 +66,11 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
 
   @override
   Widget build(BuildContext context) {
+    final BotController controller = Get.find<BotController>();
+    controller.getBotPersona();
+    final List<String> personas = controller.botPersonas;
+    print("personas");
+    print(personas);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Bot'),
@@ -101,33 +108,53 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  DropdownButtonFormField<int>(
+                 DropdownButtonFormField<int>(
+                  decoration: const InputDecoration(
+                    labelText: 'Bot Type',
+                    border: OutlineInputBorder(),
+                  ),
+                  value: _botType,
+                  items: const [
+                    DropdownMenuItem(value: 0, child: Text('Default')),
+                    DropdownMenuItem(value: 1, child: Text('persona bot')),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _botType = value ?? 0;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                if (_botType == 1)
+                  DropdownButtonFormField<String>(
                     decoration: const InputDecoration(
-                      labelText: 'Bot Type',
+                      labelText: 'Bot Persona',
                       border: OutlineInputBorder(),
                     ),
-                    value: _botType,
-                    items: const [
-                      DropdownMenuItem(value: 0, child: Text('Default')),
-                      DropdownMenuItem(value: 1, child: Text('persona bot')),
-                    ],
+                    value: personas.contains(_botPersona) ? _botPersona : null,
+                    items: personas.toSet().map((persona) =>
+                      DropdownMenuItem<String>(
+                        value: persona,
+                        child: Text(persona),
+                      )
+                    ).toList(),
                     onChanged: (value) {
                       setState(() {
-                        _botType = value ?? 1;
+                        if (value != null && personas.contains(value)) {
+                          _botPersona = value;
+                        }
                       });
                     },
                   ),
-                  const SizedBox(height: 16),
-                  if (_botType == 1)
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Bot Persona',
-                        border: OutlineInputBorder(),
-                      ),
-                      onSaved: (value) {
-                        _botPersona = value ?? '';
-                      },
-                    ),
+                    // TextFormField(
+                    //   decoration: const InputDecoration(
+                    //     labelText: 'Bot Persona',
+                    //     border: OutlineInputBorder(),
+                    //   ),
+                    //   onSaved: (value) {
+                    //     _botPersona = value ?? '';
+                    //   },
+                    // ),
                   const SizedBox(height: 32),
                   ElevatedButton(
                     onPressed: _createBot,
