@@ -5,8 +5,9 @@ import '../sign_regi_welc/components/background.dart';
 
 class ProfilePage extends StatefulWidget {
   final String username;
+  final String email;
 
-  const ProfilePage({super.key, required this.username});
+  const ProfilePage({super.key, required this.username,required this.email});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -47,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  Text('groupj@163.com'),
+                  Text('${widget.email}'),
                 ],
               ),
             ),

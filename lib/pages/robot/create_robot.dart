@@ -1,5 +1,6 @@
 import 'package:comp7705_chatbot/controller/BotController.dart';
 import 'package:comp7705_chatbot/pages/robot/bot_page.dart';
+import 'package:comp7705_chatbot/pages/robot/botdetail.dart';
 import 'package:comp7705_chatbot/pages/robot/robot_page.dart';
 import 'package:comp7705_chatbot/repository/Bot.dart';
 import 'package:comp7705_chatbot/service/bot_service.dart';
@@ -22,6 +23,7 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
   String _botPersona = '';
   BotRepository repository = BotRepository();
   int _userId = 0;
+  bool _showCustomBotPersonaField = false;
 
   Future<void> _getUserId() async {
     int ? userId = await UserDataController.getUserId();
@@ -56,7 +58,7 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
         );
         // 注册成功后的处理逻辑
         // 例如: 跳转到登录页面或显示成功提示
-        Navigator.push(context, MaterialPageRoute(builder: (context) => BotPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => BotDetailsScreen(userId: userId,botId: createbotresponse,)));
       } catch (e) {
         // Handle any exceptions, such as HttpException
         print('Error creating bot: $e');
@@ -140,12 +142,34 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
                     ).toList(),
                     onChanged: (value) {
                       setState(() {
-                        if (value != null && personas.contains(value)) {
+                        if (value != null && value == 'Defined by me') {
+                          _showCustomBotPersonaField = true;
+                        } else if (value != null && personas.contains(value)) {
+                          _showCustomBotPersonaField = false;
                           _botPersona = value;
                         }
                       });
                     },
                   ),
+                  if (_showCustomBotPersonaField)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Custom Bot Persona',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value?.isEmpty ?? true) {
+                            return 'Please enter your defined bot personas';
+                          }
+                          return null;
+                        },
+                        onSaved: (newValue) {
+                          _botPersona = newValue ?? '';
+                        },
+                      ),
+                    ),
                     // TextFormField(
                     //   decoration: const InputDecoration(
                     //     labelText: 'Bot Persona',

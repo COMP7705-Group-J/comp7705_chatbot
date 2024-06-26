@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   final String username;
+  final String email;
 
-  const HomePage({Key? key, required this.username}) : super(key: key);
+  const HomePage({Key? key, required this.username,  required this.email}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       const ChatPage(),
 
       // profile page
-      ProfilePage(username: widget.username),
+      ProfilePage(username: widget.username,email: widget.email,),
     ];
     return Scaffold(
       bottomNavigationBar: MyBottomNavBar(
