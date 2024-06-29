@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:comp7705_chatbot/repository/Bot.dart';
 import 'package:get/get.dart';
 
 class BotController extends GetxController {
   var botList = <Bot>[].obs;
+  var botPersonas = <String>[].obs;
 
   static BotController get to => Get.find();
 
@@ -17,6 +20,12 @@ class BotController extends GetxController {
     return await BotRepository().getPersonaList();
   }
 
+
+  Future<void> getBotPersona() async {
+    print('[BotController getBotPersona]');
+    botPersonas.value = await BotRepository().getBotPersona();
+    update();
+  }
 
 
 }

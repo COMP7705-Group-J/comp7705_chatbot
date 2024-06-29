@@ -33,8 +33,10 @@ class _LoginFormState extends State<LoginForm> {
       // Perform login logic with _username and _password
       try {
         final loginRes = await AuthService.login(_username!, _password!);
+        print(loginRes);
         int userId = loginRes['user_id'];
         String accessToken = loginRes['access'];
+        String email = loginRes['email'];
         //存储userId和token
         await UserDataController.saveUserId(userId);
         await UserDataController.saveToken(accessToken);
@@ -44,7 +46,7 @@ class _LoginFormState extends State<LoginForm> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return HomePage(username: _username!);
+              return HomePage(username: _username!,email:email);
             },
           ),
         );

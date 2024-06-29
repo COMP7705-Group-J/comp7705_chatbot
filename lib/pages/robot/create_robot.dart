@@ -1,4 +1,9 @@
+import 'dart:async';
+
+import 'package:comp7705_chatbot/controller/BotController.dart';
 import 'package:comp7705_chatbot/pages/robot/bot_page.dart';
+import 'package:comp7705_chatbot/pages/robot/botdetail.dart';
+import 'package:comp7705_chatbot/pages/robot/robot_page.dart';
 import 'package:comp7705_chatbot/repository/Bot.dart';
 import 'package:flutter/material.dart';
 import 'package:comp7705_chatbot/controller/UserDataController.dart';
@@ -22,6 +27,7 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
   BotRepository repository = BotRepository();
   int _userId = 0;
   List<DropdownMenuItem<String>> personalist = [];
+  bool _showCustomBotPersonaField = false;
 
   Future<void> _getUserId() async {
     int ? userId = await UserDataController.getUserId();
@@ -62,7 +68,7 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
         );
         // 注册成功后的处理逻辑
         // 例如: 跳转到登录页面或显示成功提示
-        Navigator.push(context, MaterialPageRoute(builder: (context) => BotPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => BotDetailsScreen(userId: userId,botId: createbotresponse,)));
       } catch (e) {
         // Handle any exceptions, such as HttpException
         print('Error creating bot: $e');
@@ -86,6 +92,11 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
 
   @override
   Widget build(BuildContext context) {
+    final BotController controller = Get.find<BotController>();
+    controller.getBotPersona();
+    final List<String> personas = controller.botPersonas;
+    print("personas");
+    print(personas);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Bot'),
@@ -123,24 +134,68 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  DropdownButtonFormField<int>(
+                 DropdownButtonFormField<int>(
+                  decoration: const InputDecoration(
+                    labelText: 'Bot Type',
+                    border: OutlineInputBorder(),
+                  ),
+                  value: _botType,
+                  items: const [
+                    DropdownMenuItem(value: 0, child: Text('Default')),
+                    DropdownMenuItem(value: 1, child: Text('persona bot')),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _botType = value ?? 0;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                if (_botType == 1)
+                  DropdownButtonFormField<String>(
                     decoration: const InputDecoration(
-                      labelText: 'Bot Type',
+                      labelText: 'Bot Persona',
                       border: OutlineInputBorder(),
                     ),
-                    value: _botType,
-                    items: const [
-                      DropdownMenuItem(value: 0, child: Text('Default')),
-                      DropdownMenuItem(value: 1, child: Text('persona bot')),
-                    ],
+                    value: personas.contains(_botPersona) ? _botPersona : null,
+                    items: personas.toSet().map((persona) =>
+                      DropdownMenuItem<String>(
+                        value: persona,
+                        child: Text(persona),
+                      )
+                    ).toList(),
                     onChanged: (value) {
                       setState(() {
-                        _botType = value ?? 1;
+                        if (value != null && value == 'Defined by me') {
+                          _showCustomBotPersonaField = true;
+                        } else if (value != null && personas.contains(value)) {
+                          _showCustomBotPersonaField = false;
+                          _botPersona = value;
+                        }
                       });
                     },
                   ),
                   const SizedBox(height: 16),
                   if (_botType == 1)
+                  if (_showCustomBotPersonaField)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Custom Bot Persona',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value?.isEmpty ?? true) {
+                            return 'Please enter your defined bot personas';
+                          }
+                          return null;
+                        },
+                        onSaved: (newValue) {
+                          _botPersona = newValue ?? '';
+                        },
+                      ),
+                    ),
                     // TextFormField(
                     //   decoration: const InputDecoration(
                     //     labelText: 'Bot Persona',
@@ -164,6 +219,7 @@ class _CreateBotPageUIState extends State<CreateBotPageUI> {
                     //     });
                     //   },
                     // ),
+
                   const SizedBox(height: 32),
                   ElevatedButton(
                     onPressed: _createBot,

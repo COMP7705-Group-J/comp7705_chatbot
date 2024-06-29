@@ -23,7 +23,7 @@ class _RobotPageState extends State<RobotPage> {
                 MaterialPageRoute(builder: (context) => CreateBotPageUI()),
               );
             },
-            child: Text('Create Chatbot'),
+            child: Text('Create Bot'),
           ),
           SizedBox(height: 16.0),
           TextButton(

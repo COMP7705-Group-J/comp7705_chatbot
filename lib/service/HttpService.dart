@@ -5,6 +5,18 @@ import 'package:http/http.dart' as http;
 class HttpService {
   final http.Client _client = http.Client();
 
+  Future<Map<String, dynamic>> getWithO(String url) async {
+    print('Http get, url: $url');
+
+    final response = await _client.get(Uri.parse(url));
+    print('response: $response');
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      throw HttpException('GET request failed with status ${response.statusCode}.');
+    }
+  }
+
   Future<Map<String, dynamic>> get(String url, Map<String, String> params) async {
     print('Http get, url: $url, params: $params');
     if (params != null && params.isNotEmpty) {
@@ -27,6 +39,7 @@ class HttpService {
       throw HttpException('GET request failed with status ${response.statusCode}.');
     }
   }
+
 
   Future<Map<String, dynamic>> post(String url, Map<String, Object> body) async {
     final headers = {
