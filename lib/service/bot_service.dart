@@ -63,7 +63,7 @@ class BotsService {
         String chatbotPersona = item['chatbot_persona'] == null ? "" : item['chatbot_persona'];
         Bot bot = Bot(user_id: userId, chatbot_id: chatBotId, chatbot_name: chatBotName, create_at: createdAt, chatbot_type: chatbotType,
             chatbot_persona: chatbotPersona);
-        print('chatBotName: $chatBotName, chatbotPersona: $chatbotPersona, chatbotType: $chatbotType');
+        print('[BotDetails]'+ 'chatBotName: $chatBotName, chatbotPersona: $chatbotPersona, chatbotType: $chatbotType');
         return bot;
       }
       return Bot(chatbot_id: null, chatbot_name: '', chatbot_type: null);

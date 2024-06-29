@@ -144,17 +144,42 @@ class BotRepository {
 
 
 
+// Future<void> main() async {
+//   final botRepository = BotRepository();
+//   try {
+//     final botPersonas = await botRepository.getBotPersona();
+//     print('Available Bot Personas: $botPersonas');
+//   } catch (e) {
+//     print('Error in main: $e');
+//   }
+// }
+//
+//
+
 Future<void> main() async {
   final botRepository = BotRepository();
+  final httpService = HttpService();
+
   try {
-    final botPersonas = await botRepository.getBotPersona();
-    print('Available Bot Personas: $botPersonas');
+    final body = {
+      "user_id": 6,
+      "chatbot_id":29709
+    };
+    print(body);
+    final resultPost = await httpService.postByForm(
+        proApiUrl + 'bot/detail',
+        body
+    );
+    print("botDetail:"+ resultPost.toString());
+
+
+
+
+    //final botPersonas = await botRepository.getBotPersona();
+    //print('Available Bot Personas: $botPersonas');
   } catch (e) {
     print('Error in main: $e');
   }
 }
-
-
-
 
 

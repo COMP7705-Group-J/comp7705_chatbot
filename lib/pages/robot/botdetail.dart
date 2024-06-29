@@ -82,14 +82,14 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
                   children: [
                     CircleAvatar(
                       radius: 90,
-                      backgroundImage: AssetImage('assets/icons/olu.jpg'),
+                      backgroundImage: AssetImage('assets/icons/bot_blue.png'),
 
                     ),
                     SizedBox(height: 16),
                     Text(
                       //TODO fix hard code
-                      'Olu',
-                      // '${_botDetails.chatbot_name}',
+                      'everlyn-test-1',
+                      //'${_botDetails.chatbot_name}',
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
