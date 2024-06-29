@@ -114,13 +114,11 @@ class BotRepository {
     } finally {
     }
   }
-}
 
-<<<<<<< HEAD
   Future<List<String>> getPersonaList() async {
     print('[BotRepository getPersonaList]');
     try {
-     final response = await httpService.get(proApiUrl + 'bots/get_persona', {});
+      final response = await httpService.get(proApiUrl + 'bots/get_persona', {});
       print('response' + response.toString());
       List<String> personaList = [];
 
@@ -141,9 +139,11 @@ class BotRepository {
     }
   }
 
+}
 
 
-=======
+
+
 Future<void> main() async {
   final botRepository = BotRepository();
   try {
@@ -152,7 +152,6 @@ Future<void> main() async {
   } catch (e) {
     print('Error in main: $e');
   }
->>>>>>> c5a1fc2fbea5a5510830e8ed8a1f30d1f89b6980
 }
 
 
