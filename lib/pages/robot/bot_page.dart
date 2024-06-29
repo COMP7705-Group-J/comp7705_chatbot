@@ -24,18 +24,35 @@ class BotListItem extends StatelessWidget {
   BotListItem({required this.bot, required this.userId});
 
 
-  Widget buildAvatar() {
-    return CircleAvatar(
-      backgroundImage: AssetImage('assets/icons/bot_blue.png'),
-      radius: 20.0,
+  Widget buildAvatar(String name) {
+    String initial = name.isNotEmpty ? name[0].toUpperCase() : '?';
+
+    return Container(
+      width: 40.0,
+      height: 40.0,
+      decoration: BoxDecoration(
+        color: Colors.deepPurple[100],
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          initial,
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
+
 
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: buildAvatar(),
+      leading: buildAvatar(bot.chatbot_name ?? ''),
       title: Text(bot.chatbot_name ?? ''),
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {
