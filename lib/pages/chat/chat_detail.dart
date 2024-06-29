@@ -94,7 +94,7 @@ class _ChatDetailState extends State<ChatDetail> {
                       if (message.byUser) {
                         messageWidget = SentMessageScreen(message: message.content);
                       } else {
-                        messageWidget = ReceivedMessageScreen(message: message.content);
+                        messageWidget = ReceivedMessageScreen(message: message.content, botName: widget.botName);
                       }
                       return messageWidget;
                     },

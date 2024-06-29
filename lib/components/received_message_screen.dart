@@ -7,17 +7,37 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ReceivedMessageScreen extends StatelessWidget {
   final String message;
+  final String botName;
+
   const ReceivedMessageScreen({
     Key? key,
     required this.message,
+    required this.botName,
   }) : super(key: key);
 
-  Widget buildAvatar() {
-    return CircleAvatar(
-      backgroundImage: AssetImage('assets/icons/bot_grey.png'),
-      //radius: 20.0,
+  Widget buildAvatar(String name) {
+    String initial = name.isNotEmpty ? name[0].toUpperCase() : '?';
+
+    return Container(
+      width: 40.0,
+      height: 40.0,
+      decoration: BoxDecoration(
+        color: Colors.deepPurple[100],
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          initial,
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +46,7 @@ class ReceivedMessageScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildAvatar(), //头像
+            buildAvatar(botName), //头像
             // Icon(
             //   FontAwesomeIcons.robot, // 使用Flutter内置的账号图标作为头像
             //   color: Colors.grey,
