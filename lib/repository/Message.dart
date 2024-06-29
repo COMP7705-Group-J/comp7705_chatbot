@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:comp7705_chatbot/service/HttpService.dart';
+import 'package:intl/intl.dart';
 
 import '../const.dart';
 
@@ -72,7 +73,8 @@ class ChatRepository {
         String content = item[0] as String;
         bool by_user = item[1] as int == 1 ? true : false;
 
-        String timestamp = item[2] as String;
+        String timestamp = formatDate(item[2] as String);
+
         Message message = Message(chatBotId: '', chatBotName: '', byUser: by_user, content: content, timestamp: timestamp);
         messageList.add(message);
         print('by_user: $by_user, Timestamp: $timestamp, Content: $content');
@@ -105,6 +107,14 @@ class ChatRepository {
 
 
   }
+
+  String formatDate(String timestamp) {
+    DateTime dateTime = DateTime.parse(timestamp);
+
+    DateFormat dateFormat = DateFormat("HH:mm:ss");
+    return dateFormat.format(dateTime);
+  }
+
 
 }
 

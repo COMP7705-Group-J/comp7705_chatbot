@@ -92,9 +92,10 @@ class _ChatDetailState extends State<ChatDetail> {
                       final message = messageController.messageList[index];
                       Widget messageWidget;
                       if (message.byUser) {
-                        messageWidget = SentMessageScreen(message: message.content);
+                        messageWidget = SentMessageScreen(message: message.content, date: message.timestamp,);
                       } else {
-                        messageWidget = ReceivedMessageScreen(message: message.content, botName: widget.botName);
+                        messageWidget = ReceivedMessageScreen(message: message.content,
+                            botName: widget.botName, date: message.timestamp);
                       }
                       return messageWidget;
                     },
