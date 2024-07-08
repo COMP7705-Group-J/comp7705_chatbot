@@ -9,7 +9,7 @@ class BotDetailsScreen extends StatefulWidget {
 
   BotDetailsScreen({
     required this.userId,
-    required this.botId,
+    required this.botId
   });
 
   @override
@@ -87,9 +87,7 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      //TODO fix hard code
-                      'everlyn-test-1',
-                      //'${_botDetails.chatbot_name}',
+                      '${_botDetails.chatbot_name}',
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -155,8 +153,7 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
 
                   ),
                   TextSpan(
-                    //TODO fix hard code
-                    text: 'Default Bot',
+                    text: _botDetails.chatbot_type == 0 ? 'Default Bot' : 'Persona Bot',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
@@ -180,7 +177,7 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
                   ),
                   TextSpan(
                     //TODO fix hard code
-                    text: '2024-06-16 14:00',
+                    text:  '${_botDetails.create_at}',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,

@@ -43,9 +43,9 @@ class BotsService {
 
   // 获取机器人详情
   static Future<Bot> getBotDetail(int userId, int botId) async {
-    print('[BotRepository getBotDetail], params: {userId: $userId, bostId: $botId}');
+    print('[BotRepository getBotDetail], params: {userId: $userId, chatbotId: $botId}');
     try {
-      Map<String, Object> params = {'user_id': userId, 'botId': botId};
+      Map<String, Object> params = {'user_id': userId, 'chatbot_id': botId};
       final response = await httpService.postByForm(proApiUrl + 'bots/detail', params);
       print('response' + response.toString());
 
@@ -55,8 +55,8 @@ class BotsService {
       }
       List<dynamic> dataList = response['data'] as List<dynamic>;
       for (dynamic item in dataList) {
-        int ? userId = item['user_id'];
-        int chatBotId = item['chatbot_id'];
+        //int ? userId = userId;
+        int chatBotId = botId;
         String chatBotName = item['chatbot_name'];
         String createdAt = item['create_at'];
         int chatbotType = item['chatbot_type'];
