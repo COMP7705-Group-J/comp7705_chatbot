@@ -1,14 +1,27 @@
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:http/io_client.dart';
 import 'package:comp7705_chatbot/const.dart';
 import 'package:http/http.dart' as http;
 
 class HttpService {
-  final http.Client _client = http.Client();
+  //final http.Client _client = http.Client();
+  static IOClient _createHttpClient() {
+    final httpClient = HttpClient()
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
+        // Trust self-signed certificates
+        return true;
+      };
+
+    return IOClient(httpClient);
+  }
 
   Future<Map<String, dynamic>> getWithO(String url) async {
     print('Http get, url: $url');
 
-    final response = await _client.get(Uri.parse(url));
+    final httpClient = _createHttpClient();
+    final response = await httpClient.get(Uri.parse(url));
     print('response: $response');
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
@@ -31,7 +44,8 @@ class HttpService {
       }
     }
 
-    final response = await _client.get(Uri.parse(url));
+    final httpClient = _createHttpClient();
+    final response = await httpClient.get(Uri.parse(url));
     print('response:' + response.toString());
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
@@ -46,7 +60,8 @@ class HttpService {
       'Content-Type': 'application/json; charset=utf-8',
     };
     final encodedBody = jsonEncode(body);
-    final response = await _client.post(
+    final httpClient = _createHttpClient();
+    final response = await httpClient.post(
       Uri.parse(url),
       headers: headers,
       body: encodedBody
@@ -67,8 +82,8 @@ class HttpService {
     final queryParameters = formData.entries.map((entry) =>
     '${Uri.encodeQueryComponent(entry.key)}=${Uri.encodeQueryComponent(entry.value.toString())}'
     ).join('&');
-
-    final response = await http.post(uri,
+    final httpClient = _createHttpClient();
+    final response = await httpClient.post(uri,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -86,7 +101,7 @@ class HttpService {
 
 
   void close() {
-    _client.close();
+     _createHttpClient().close();
   }
 }
 

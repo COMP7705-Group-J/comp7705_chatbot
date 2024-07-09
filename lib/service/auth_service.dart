@@ -1,24 +1,36 @@
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:http/io_client.dart';
 import 'package:comp7705_chatbot/const.dart';
 import 'package:http/http.dart' as http;
 import 'package:comp7705_chatbot/controller/UserDataController.dart';
 
 class AuthService {
-  static final _client = http.Client();
+  static IOClient _createHttpClient() {
+    final httpClient = HttpClient()
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
+        // Trust self-signed certificates
+        return true;
+      };
+
+    return IOClient(httpClient);
+  }
 
   static Future<Map<String, dynamic>> register(
     String username,
     String password,
     String? email,
   ) async {
-    final url = Uri.parse(proApiUrl + 'users/register/');
+    final url = Uri.parse('$proApiUrl/users/register/');
     final body = {
       'username': username,
       'password': password,
       if (email != null) 'email': email,
     };
 
-    final response = await _client.post(
+    final httpClient = _createHttpClient();
+    final response = await httpClient.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
@@ -37,13 +49,14 @@ class AuthService {
     String usernameOrEmail,
     String password,
   ) async {
-    final url = Uri.parse(proApiUrl + 'login/');
+    final url = Uri.parse('$proApiUrl/login/');
     final body = {
       'username': usernameOrEmail,
       'password': password,
     };
 
-    final response = await _client.post(
+    final httpClient = _createHttpClient();
+    final response = await httpClient.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
@@ -64,14 +77,15 @@ class AuthService {
     String? password,
     String? email,
   ) async {
-    final url = Uri.parse(proApiUrl + 'users/users/$userId/');
+    final url = Uri.parse('$proApiUrl/users/users/$userId/');
     final body = {
       if (username != null) 'username': username,
       if (password != null) 'password': password,
       if (email != null) 'email': email,
     };
 
-    final response = await _client.patch(
+    final httpClient = _createHttpClient();
+    final response = await httpClient.patch(
       url,
       headers: {
         'Content-Type': 'application/json',
@@ -81,7 +95,6 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      //print("login response:" +jsonDecode(response.body));
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
       final errorBody = jsonDecode(response.body) as Map<String, dynamic>;
@@ -90,10 +103,9 @@ class AuthService {
   }
 
   static void close() {
-    _client.close();
+    _createHttpClient().close();
   }
 }
-
 class HttpException implements Exception {
   final dynamic errorBody;
 
@@ -118,21 +130,21 @@ void main() async {
     */
     // User login
     final loginResult = await AuthService.login(
-      'testuser',
-      'password123',
+      '1',
+      '1',
     );
     print('Login result: $loginResult');
 
     // User update
-    final accessToken = loginResult['access'];
-    final updateResult = await AuthService.updateUser(
-      1,
-      accessToken!,
-      'newusername',
-      'newpassword',
-      'newemail@example.com',
-    );
-    print('Update result: $updateResult');
+    // final accessToken = loginResult['access'];
+    // final updateResult = await AuthService.updateUser(
+    //   1,
+    //   accessToken!,
+    //   'newusername',
+    //   'newpassword',
+    //   'newemail@example.com',
+    // );
+    // print('Update result: $updateResult');
   } on HttpException catch (e) {
     print('Error: $e');
   } finally {

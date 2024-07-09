@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:comp7705_chatbot/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:comp7705_chatbot/controller/UserDataController.dart';
