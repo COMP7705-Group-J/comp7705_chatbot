@@ -211,9 +211,9 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) =>
-                            ChatDetail(userId: '1',
-                                botId: '10277',
-                                botName: 'Olu')),
+                            ChatDetail(userId: '${_botDetails.user_id}',
+                                botId: '${_botDetails.chatbot_id}',
+                                botName: '${_botDetails.chatbot_name}')),
                       );
                       //       ChatDetail(userId: _botDetails.user_id.toString(),
                       //           botId: _botDetails.user_id.toString(),
