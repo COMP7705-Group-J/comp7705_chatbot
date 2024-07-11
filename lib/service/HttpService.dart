@@ -76,9 +76,6 @@ class HttpService {
 
   Future<Map<String, dynamic>> postByForm(String url, Map<String, Object> formData) async {
     final uri = Uri.parse(url);
-    final headers = {
-      'Content-Type': 'application/x-www-form-urlencode',
-    };
     final queryParameters = formData.entries.map((entry) =>
     '${Uri.encodeQueryComponent(entry.key)}=${Uri.encodeQueryComponent(entry.value.toString())}'
     ).join('&');

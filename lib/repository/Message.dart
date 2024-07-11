@@ -90,14 +90,15 @@ class ChatRepository {
    * Send Message to Bot
    */
   Future<void> sendMessage(MessageRequest request) async {
-    print('[sendMessage], params:' + request.toString());
+    print('[sendMessage], params' + request.userId + ','+request.chatBotId + ',' + request.input);
+
     String userId = request.userId;
     String botId = request.chatBotId;
     String input = request.input;
     try {
       Map<String, String> params = {'user_id': userId, 'chatbot_id': botId, 'input': input};
       final response = await httpService.postByForm(proApiUrl + 'chat/new_chat', params);
-      print('response' + response.toString());
+      print('[sendMessage response]' + response.toString());
       String data = response['data'] as String;
 
     } on HttpException catch (e) {
