@@ -60,6 +60,31 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
     }
   }
 
+
+  Widget buildAvatar(String name) {
+    String initial = name.isNotEmpty ? name[0].toUpperCase() : '?';
+
+    return Container(
+      width: 120.0,
+      height: 120.0,
+      decoration: BoxDecoration(
+        color: Colors.deepPurple[100],
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          initial,
+          style: TextStyle(
+            fontSize: 70.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,11 +105,13 @@ class _BotDetailsScreenState extends State<BotDetailsScreen> {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircleAvatar(
-                      radius: 90,
-                      backgroundImage: AssetImage('assets/icons/bot_blue.png'),
+                    buildAvatar('${_botDetails.chatbot_name}'),
 
-                    ),
+                    // CircleAvatar(
+                    //   radius: 90,
+                    //   backgroundImage: AssetImage('assets/icons/bot_blue.png'),
+                    //
+                    // ),
                     SizedBox(height: 16),
                     Text(
                       '${_botDetails.chatbot_name}',
