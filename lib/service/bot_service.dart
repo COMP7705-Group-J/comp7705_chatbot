@@ -1,26 +1,33 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:http/io_client.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:comp7705_chatbot/service/HttpService.dart';
 import 'package:comp7705_chatbot/repository/Bot.dart';
 import 'package:comp7705_chatbot/const.dart';
+// import 'package:http/browser_client.dart';
+// import 'package:http/http.dart';
+// import 'dart:io';
+
+// import 'package:http/io_client.dart';
 
 
 class BotsService {
   static const String _baseUrl = 'http://localhost:8000';
-  //static final _client = http.Client();
-  static IOClient _createHttpClient() {
-    final httpClient = HttpClient()
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        // Trust self-signed certificates
-        return true;
-      };
-
-    return IOClient(httpClient);
-  }
+  static final _client = http.Client();
+  // static Client _createHttpClient() {
+  //   if (kIsWeb) {
+  //     final browserClient = BrowserClient();
+  //     return browserClient;
+  //   } else {
+  //     final httpClient = HttpClient()
+  //       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
+  //         // Trust self-signed certificates
+  //         return true;
+  //       };
+  //     return IOClient(httpClient);
+  //   }
+  // }
   static  final httpService = HttpService();
 
   // 创建机器人
@@ -38,8 +45,8 @@ class BotsService {
       if (botType == 1)'chatbot_persona': botPersona,
     };
     print(body);
-    final httpClient = _createHttpClient();
-    final response = await httpClient.post(
+    //final httpClient = _createHttpClient();
+    final response = await _client.post(
       url, 
       body: jsonEncode(body), 
       headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -112,8 +119,8 @@ class BotsService {
     final body = {
       'user_id': userId,
     };
-    final httpClient = _createHttpClient();
-    final response = await httpClient.post(url, body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
+    //final httpClient = _createHttpClient();
+    final response = await _client.post(url, body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
@@ -132,8 +139,8 @@ class BotsService {
       'user_id': userId,
       'chatbot_id': botId.toString(),
     };
-    final httpClient = _createHttpClient();
-    final response = await httpClient.post(url, body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
+    //final httpClient = _createHttpClient();
+    final response = await _client.post(url, body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
@@ -143,7 +150,7 @@ class BotsService {
   }
 
    static void close() {
-    _createHttpClient().close();
+    _client.close();
   }
 }
 class HttpException implements Exception {
