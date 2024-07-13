@@ -1,21 +1,31 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:http/io_client.dart';
 import 'package:comp7705_chatbot/const.dart';
+// import 'package:flutter/foundation.dart';
+// import 'package:http/browser_client.dart';
+// import 'package:http/http.dart';
+// import 'dart:io';
+
+// import 'package:http/io_client.dart';
+
+// import 'package:comp7705_chatbot/const.dart';
 import 'package:http/http.dart' as http;
 import 'package:comp7705_chatbot/controller/UserDataController.dart';
-
 class AuthService {
-  static IOClient _createHttpClient() {
-    final httpClient = HttpClient()
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        // Trust self-signed certificates
-        return true;
-      };
-
-    return IOClient(httpClient);
-  }
+  // static Client _createHttpClient() {
+  //   if (kIsWeb) {
+  //     final browserClient = BrowserClient();
+  //     return browserClient;
+  //   } else {
+  //     final httpClient = HttpClient()
+  //       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
+  //         // Trust self-signed certificates
+  //         return true;
+  //       };
+  //     return IOClient(httpClient);
+  //   }
+  // }
+  static final _client = http.Client();
 
   static Future<Map<String, dynamic>> register(
     String username,
@@ -29,8 +39,8 @@ class AuthService {
       if (email != null) 'email': email,
     };
 
-    final httpClient = _createHttpClient();
-    final response = await httpClient.post(
+    //final httpClient = _createHttpClient();
+    final response = await _client.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
@@ -55,8 +65,8 @@ class AuthService {
       'password': password,
     };
 
-    final httpClient = _createHttpClient();
-    final response = await httpClient.post(
+    //final httpClient = _createHttpClient();
+    final response = await _client.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
@@ -84,8 +94,8 @@ class AuthService {
       if (email != null) 'email': email,
     };
 
-    final httpClient = _createHttpClient();
-    final response = await httpClient.patch(
+    //final httpClient = _createHttpClient();
+    final response = await _client.patch(
       url,
       headers: {
         'Content-Type': 'application/json',
@@ -103,7 +113,7 @@ class AuthService {
   }
 
   static void close() {
-    _createHttpClient().close();
+    _client.close();
   }
 }
 class HttpException implements Exception {
