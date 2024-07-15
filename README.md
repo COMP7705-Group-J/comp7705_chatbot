@@ -4,6 +4,10 @@ A new Flutter project.
 
 ## Getting Started
 
+Clone/download this repository.
+Run flutter pub get.
+Run flutter run (remember open simulator or connect physical device, iOS auto run additional command pod install).
+
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
